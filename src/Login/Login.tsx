@@ -7,9 +7,26 @@ import {
   Dimensions,
   TextInput,
   Button,
+  TouchableOpacity,
 } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const Login: React.FC = () => {
+type RootStackParamList = {
+  Home: undefined;
+  Login: undefined;
+  Agree: undefined;
+};
+
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
+
+interface Props {
+  navigation: LoginScreenNavigationProp;
+}
+
+const Login: React.FC<Props> = ({ navigation }) => {
   const [email, setemail] = React.useState("");
   const [password, setpassword] = React.useState("");
 
@@ -33,27 +50,30 @@ const Login: React.FC = () => {
         }
       });
   };
+
+  const handleRegister = () => {
+    navigation.navigate("Agree");
+  };
+
   return (
     <View style={styles.container}>
       <Image
         source={require("../../assets/spotmateicon.png")}
         style={styles.icon}
       />
-      <TextInput
-        placeholder="이메일"
-        value={email}
-        onChangeText={setemail}
-      ></TextInput>
+      <TextInput placeholder="이메일" value={email} onChangeText={setemail} />
       <TextInput
         placeholder="비밀번호"
         value={password}
         onChangeText={setpassword}
-      ></TextInput>
+      />
       <Button title="Login" onPress={handleLogin} />
 
       <Text>비밀번호 찾기</Text>
 
-      <Text>아직 회원이 아니신가요?</Text>
+      <TouchableOpacity onPress={handleRegister}>
+        <Text>아직 회원이 아니신가요?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
