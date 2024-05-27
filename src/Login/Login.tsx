@@ -10,15 +10,46 @@ import {
 } from "react-native";
 
 const Login: React.FC = () => {
+  const [email, setemail] = React.useState("");
+  const [password, setpassword] = React.useState("");
+
+  const handleLogin = () => {
+    fetch("http://spotweb.hysu.kr:1030/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res["success"]) {
+          alert("로그인 성공");
+        } else {
+          alert("로그인 실패");
+        }
+      });
+  };
   return (
     <View style={styles.container}>
       <Image
         source={require("../../assets/spotmateicon.png")}
         style={styles.icon}
       />
-      <TextInput placeholder="이메일"></TextInput>
-      <TextInput placeholder="비밀번호"></TextInput>
-      <Button title="Login" />
+      <TextInput
+        placeholder="이메일"
+        value={email}
+        onChangeText={setemail}
+      ></TextInput>
+      <TextInput
+        placeholder="비밀번호"
+        value={password}
+        onChangeText={setpassword}
+      ></TextInput>
+      <Button title="Login" onPress={handleLogin} />
 
       <Text>비밀번호 찾기</Text>
 
