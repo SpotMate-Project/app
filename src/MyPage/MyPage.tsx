@@ -1,7 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
-const MyPage: React.FC = () => {
+const MyPage: React.FC = ({navigation}) => {
+
+  const handleReview = () => {
+    navigation.navigate("Myreview");
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Spotmate</Text>
@@ -34,7 +38,8 @@ const MyPage: React.FC = () => {
               source={require("../../assets/review1.png")}
               style={styles.menuIcon}
             />
-            <Text style={styles.menuText}>나의 리뷰</Text>
+            <Text style={styles.menuText}
+             onPress={handleReview}>나의 리뷰</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.menuRow, { paddingHorizontal: 30 }]}>
