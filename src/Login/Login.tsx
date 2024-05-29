@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useUser } from "../UserContext";
 
 type RootStackParamList = {
   Home: undefined;
@@ -29,7 +30,7 @@ interface Props {
 const Login: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  const { setEmail: saveUserEmail } = useUser();
   const handleLogin = () => {
     fetch("http://spotweb.hysu.kr:1030/user/login", {
       method: "POST",
@@ -44,6 +45,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {
+          saveUserEmail(email);
           navigation.navigate("MainPage");
         } else {
           alert("로그인 실패");
