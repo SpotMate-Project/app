@@ -11,8 +11,23 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const Agree: React.FC = ({ navigation }) => {
+type RootStackParamList = {
+  Home: undefined;
+  Login: undefined;
+  Agree: undefined;
+  MainPage: undefined;
+};
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Agree"
+>;
+
+interface Props {
+  navigation: LoginScreenNavigationProp;
+}
+const Agree: React.FC<Props> = ({ navigation }) => {
   const [isChecked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
