@@ -1,5 +1,3 @@
-// App.js
-
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -21,6 +19,13 @@ import Map from "./src/MapPage/Map";
 import Community from "./src/CommunityPage/Community";
 import { UserProvider } from "./src/UserContext";
 import SettingsPage from "./src/MyPage/Setting/Setting";
+import Itemlist from "./src/MyPage/Itemlist/Itemlist";
+import Question from "./src/MyPage/Question/Question";
+import Visit from "./src/MyPage/Visit/Visit";
+import Review from "./src/Review/Review";
+import Rspot from "./src/Rspot/Rspot";
+import HotPlace from "./src/HotPlace/HotPlace";
+import Category from "./src/Category/Category";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -28,6 +33,13 @@ type RootStackParamList = {
   MainPage: undefined;
   MyReview: undefined;
   Setting: undefined;
+  Itemlist: undefined;
+  Question: undefined;
+  Visit: undefined;
+  Review: undefined;
+  Rspot: undefined;
+  HotPlace: undefined;
+  Category: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -111,6 +123,41 @@ function App() {
           <Stack.Screen
             name="Setting"
             component={SettingsPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Itemlist"
+            component={Itemlist}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Question"
+            component={Question}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Visit"
+            component={Visit}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Review"
+            component={Review}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Rspot"
+            component={Rspot}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="HotPlace"
+            component={HotPlace}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Category"
+            component={Category}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
