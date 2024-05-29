@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { useUser } from "../UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const MyPage: React.FC = ({navigation}) => {
-
+const MyPage: React.FC = ({ navigation }) => {
   const handleReview = () => {
     navigation.navigate("Myreview");
   };
+
+  const [nickname, setNickname] = useState<string>("");
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const storedEmail = await AsyncStorage.getItem("@user_email");
+        if (storedEmail) {
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
+          const data = await response.json();
+          if (data.success) {
+            setNickname(data.data[0].nickname);
+          }
+        }
+      } catch (error) {
+        console.error("유저정보가 없습니다:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Spotmate</Text>
@@ -14,7 +47,7 @@ const MyPage: React.FC = ({navigation}) => {
           source={require("../../assets/profile.png")}
           style={styles.profileImage}
         />
-        <Text style={styles.userName}>UserName</Text>
+        <Text style={styles.userName}>{nickname}</Text>
         <View style={styles.separator} />
       </View>
       <View style={styles.menuContainer}>
@@ -38,8 +71,9 @@ const MyPage: React.FC = ({navigation}) => {
               source={require("../../assets/review1.png")}
               style={styles.menuIcon}
             />
-            <Text style={styles.menuText}
-             onPress={handleReview}>나의 리뷰</Text>
+            <Text style={styles.menuText} onPress={handleReview}>
+              나의 리뷰
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.menuRow, { paddingHorizontal: 30 }]}>
