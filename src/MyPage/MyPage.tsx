@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { useUser } from "../UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const MyPage: React.FC = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const MyPage: React.FC = () => {
+  const navigation = useNavigation();
   const handleReview = () => {
-    navigation.navigate("Myreview");
+    navigation.navigate("MyReview");
   };
-
+  const handleSetting = () => {
+    navigation.navigate("Setting");
+  };
   const [nickname, setNickname] = useState<string>("");
 
   useEffect(() => {
@@ -66,14 +68,12 @@ const MyPage: React.FC = ({ navigation }) => {
             />
             <Text style={styles.menuText}>방문 기록</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={handleReview}>
             <Image
               source={require("../../assets/review1.png")}
               style={styles.menuIcon}
             />
-            <Text style={styles.menuText} onPress={handleReview}>
-              나의 리뷰
-            </Text>
+            <Text style={styles.menuText}>나의 리뷰</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.menuRow, { paddingHorizontal: 30 }]}>
@@ -84,7 +84,7 @@ const MyPage: React.FC = ({ navigation }) => {
             />
             <Text style={styles.menuText}>문의 사항</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={handleSetting}>
             <Image
               source={require("../../assets/gear.png")}
               style={styles.menuIcon}
