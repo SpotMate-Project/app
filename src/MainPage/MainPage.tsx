@@ -1,137 +1,99 @@
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 
 const MainPage: React.FC = () => {
   return (
-    <>
-      <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView>
         <Text style={styles.headerText}>Spotmate</Text>
 
         <View style={styles.banner}>
-          <Image
-            source={require("../../assets/gear.png")}
-            style={styles.bannerImage}
-          />
+          <Image source={require('../../assets/bannerlogo.png')} style={styles.bannerImage} />
           <Text style={styles.bannerText}>우리 동네 주변에 뭐가 있지?</Text>
         </View>
 
         <View style={styles.section}>
           <View style={styles.categoryContainer}>
             <TouchableOpacity style={styles.categoryItem}>
-              <Image
-                source={require("../../assets/gear.png")}
-                style={styles.categoryIcon}
-              />
+              <Image source={require('../../assets/categori.png')} style={styles.categoryIcon} />
               <Text style={styles.categoryText}>관심 카테고리</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.categoryItem}>
-              <Image
-                source={require("../../assets/gear.png")}
-                style={styles.categoryIcon}
-              />
+              <Image source={require('../../assets/mainrev.png')} style={styles.categoryIcon} />
               <Text style={styles.categoryText}>리뷰</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.categoryItem}>
-              <Image
-                source={require("../../assets/gear.png")}
-                style={styles.categoryIcon}
-              />
+              <Image source={require('../../assets/hotpp.png')} style={styles.categoryIcon} />
               <Text style={styles.categoryText}>핫 플레이스</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.categoryItem}>
-              <Image
-                source={require("../../assets/gear.png")}
-                style={styles.categoryIcon}
-              />
+              <Image source={require('../../assets/chuspot.png')} style={styles.categoryIcon} />
               <Text style={styles.categoryText}>추천 스팟</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-    </>
+
+    
+      
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   headerText: {
-    fontFamily: "Jua",
+    fontFamily: 'Jua',
     fontSize: 30,
-    textAlign: "center",
-    color: "#00BCD4",
+    textAlign: 'center',
+    color: '#00BCD4',
     marginVertical: 5,
   },
   banner: {
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: 10,
+    paddingHorizontal: 16,
   },
   bannerImage: {
-    width: "80%",
-    height: 120,
-    resizeMode: "contain",
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
   },
   bannerText: {
-    fontFamily: "Jua",
+    fontFamily: 'Jua-Bold',
     fontSize: 18,
-    color: "#000",
-    textAlign: "center",
+    color: '#00BCD4',
+ 
+    textAlign: 'center',
     marginTop: 10,
   },
   section: {
     marginVertical: 10,
   },
   categoryContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
   },
   categoryItem: {
-    width: "45%",
-    alignItems: "center",
-    marginVertical: 10,
+    width: '45%',
+    alignItems: 'center',
+    marginVertical: 30,
   },
   categoryIcon: {
     width: 60,
     height: 60,
   },
   categoryText: {
-    fontFamily: "Jua",
+    fontFamily: 'Jua',
     fontSize: 18,
-    color: "#00BCD4",
-    marginTop: 5,
+    color: '#00BCD4',
+    marginTop: 10,
   },
-  bottomMenuContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "#ddd",
-    paddingVertical: 10,
-    backgroundColor: "#fff",
-  },
-  bottomMenuItem: {
-    alignItems: "center",
-  },
-  bottomMenuIcon: {
-    width: 30,
-    height: 30,
-  },
-  bottomMenuText: {
-    fontFamily: "Jua",
-    fontSize: 14,
-    color: "#00BCD4",
-    marginTop: 5,
-  },
+ 
 });
 
 export default MainPage;
