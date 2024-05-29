@@ -4,20 +4,30 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Settings,
+} from "react-native";
 import Login from "./src/Login/Login";
 import Agree from "./src/Agree/Agree";
 import MainPage from "./src/MainPage/MainPage";
 import MyPage from "./src/MyPage/MyPage";
+import MyReview from "./src/MyPage/MyReview/MyReview";
 import Map from "./src/MapPage/Map";
 import Community from "./src/CommunityPage/Community";
 import { UserProvider } from "./src/UserContext";
-
+import SettingsPage from "./src/MyPage/Setting/Setting";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Agree: undefined;
   MainPage: undefined;
+  MyReview: undefined;
+  Setting: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -91,6 +101,16 @@ function App() {
           <Stack.Screen
             name="MainPage"
             component={MainTabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MyReview"
+            component={MyReview}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Setting"
+            component={SettingsPage}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
