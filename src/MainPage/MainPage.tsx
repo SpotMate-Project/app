@@ -55,7 +55,6 @@ const MainPage: React.FC = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={styles.bottomLine} />
       <View style={styles.bottomMenuContainer}>
         <TouchableOpacity style={styles.bottomMenuItem}>
           <Image
@@ -108,9 +107,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   bannerImage: {
-    width: "100%",
-    height: 150,
-    borderRadius: 10,
+    width: "80%",
+    height: 120,
+    resizeMode: "contain",
   },
   bannerText: {
     fontFamily: "Jua",
@@ -142,14 +141,13 @@ const styles = StyleSheet.create({
     color: "#00BCD4",
     marginTop: 5,
   },
-  bottomLine: {
-    height: 1,
-    backgroundColor: "#ddd",
-    marginVertical: 10,
-  },
   bottomMenuContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    paddingVertical: 10,
+    backgroundColor: "#fff",
   },
   bottomMenuItem: {
     alignItems: "center",
