@@ -6,7 +6,6 @@ import {
   Image,
   Dimensions,
   TextInput,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -28,8 +27,8 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ navigation }) => {
-  const [email, setemail] = React.useState("");
-  const [password, setpassword] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   const handleLogin = () => {
     fetch("http://spotweb.hysu.kr:1030/user/login", {
@@ -44,7 +43,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res["success"]) {
+        if (res.success) {
           navigation.navigate("MainPage");
         } else {
           alert("로그인 실패");
@@ -58,22 +57,38 @@ const Login: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/spotmateicon.png")}
-        style={styles.icon}
+      <View style={styles.iconContainer}>
+        <Image
+          source={require("../../assets/spotmateicon.png")}
+          style={styles.icon}
+        />
+      </View>
+      <TextInput
+        placeholder="이메일"
+        value={email}
+        onChangeText={setEmail}
+        style={styles.input}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
-      <TextInput placeholder="이메일" value={email} onChangeText={setemail} />
       <TextInput
         placeholder="비밀번호"
         value={password}
-        onChangeText={setpassword}
+        onChangeText={setPassword}
+        style={styles.input}
+        secureTextEntry
       />
-      <Button title="Login" onPress={handleLogin} />
-
-      <Text>비밀번호 찾기</Text>
-
-      <TouchableOpacity onPress={handleRegister}>
-        <Text>아직 회원이 아니신가요?</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>로그인</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => alert("기능 구현해야함")}>
+        <Text style={styles.forgotPasswordText}>비밀번호 찾기</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.registerContainer}
+        onPress={handleRegister}
+      >
+        <Text style={styles.registerText}>아직 회원이 아니신가요?</Text>
       </TouchableOpacity>
     </View>
   );
@@ -86,14 +101,53 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
+    backgroundColor: "#fff",
+  },
+  iconContainer: {
+    position: "absolute",
+    top: height * 0.1,
+    alignItems: "center",
+    width: "100%",
   },
   icon: {
-    position: "absolute",
-    top: height * 0.08,
-    width: width,
-    height: (width / 3) * 1.5,
+    width: width * 0.6,
+    height: width * 0.6,
     resizeMode: "contain",
+  },
+  input: {
+    width: width * 0.8,
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 10,
+    marginVertical: 10,
+  },
+  loginButton: {
+    width: width * 0.8,
+    height: 40,
+    backgroundColor: "#00BCD4",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  forgotPasswordText: {
+    color: "#00BCD4",
+    marginVertical: 10,
+  },
+  registerContainer: {
+    position: "absolute",
+    bottom: 20,
+  },
+  registerText: {
+    color: "#000",
+    fontSize: 14,
   },
 });
 
