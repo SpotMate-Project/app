@@ -177,7 +177,7 @@ const Agree: React.FC = ({ navigation }) => {
           <Text style={styles.label}>비밀번호</Text>
           <TextInput
             style={styles.input}
-            placeholder="PassWord"
+            placeholder="영문,숫자,특수문자의 조합으로 8자 이상이어야 합니다"
             secureTextEntry={true}
             value={pw}
             onChangeText={setPw}
