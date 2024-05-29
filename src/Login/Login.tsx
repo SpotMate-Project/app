@@ -15,6 +15,7 @@ type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Agree: undefined;
+  MainPage: undefined;
 };
 
 type LoginScreenNavigationProp = StackNavigationProp<
@@ -44,7 +45,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res["success"]) {
-          alert("로그인 성공");
+          navigation.navigate("MainPage");
         } else {
           alert("로그인 실패");
         }
