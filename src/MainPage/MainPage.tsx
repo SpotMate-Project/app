@@ -55,36 +55,6 @@ const MainPage: React.FC = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={styles.bottomMenuContainer}>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image
-            source={require("../../assets/zip.png")}
-            style={styles.bottomMenuIcon}
-          />
-          <Text style={styles.bottomMenuText}>홈</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image
-            source={require("../../assets/map2.png")}
-            style={styles.bottomMenuIcon}
-          />
-          <Text style={styles.bottomMenuText}>MAP</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image
-            source={require("../../assets/munity.png")}
-            style={styles.bottomMenuIcon}
-          />
-          <Text style={styles.bottomMenuText}>커뮤니티</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image
-            source={require("../../assets/human.png")}
-            style={styles.bottomMenuIcon}
-          />
-          <Text style={styles.bottomMenuText}>마이페이지</Text>
-        </TouchableOpacity>
-      </View>
     </>
   );
 };

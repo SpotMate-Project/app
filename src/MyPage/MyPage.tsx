@@ -1,97 +1,97 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
-const mypage: React.FC = () => {
+const MyPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Spotmate</Text>
       <View style={styles.profileContainer}>
-        <Image source={require('../../assets/profile.png')} style={styles.profileImage} />
+        <Image
+          source={require("../../assets/profile.png")}
+          style={styles.profileImage}
+        />
         <Text style={styles.userName}>UserName</Text>
         <View style={styles.separator} />
       </View>
       <View style={styles.menuContainer}>
         <View style={styles.menuRow}>
           <TouchableOpacity style={styles.menuItem}>
-            <Image source={require('../../assets/zzim.png')} style={styles.menuIcon} />
+            <Image
+              source={require("../../assets/zzim.png")}
+              style={styles.menuIcon}
+            />
             <Text style={styles.menuText}>찜 목록</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem}>
-            <Image source={require('../../assets/review.png')} style={styles.menuIcon} />
+            <Image
+              source={require("../../assets/review.png")}
+              style={styles.menuIcon}
+            />
             <Text style={styles.menuText}>방문 기록</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem}>
-            <Image source={require('../../assets/review1.png')} style={styles.menuIcon} />
+            <Image
+              source={require("../../assets/review1.png")}
+              style={styles.menuIcon}
+            />
             <Text style={styles.menuText}>나의 리뷰</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.menuRow, { paddingHorizontal: 30 }]}>
           <TouchableOpacity style={styles.menuItem}>
-            <Image source={require('../../assets/question.png')} style={styles.menuIcon} />
+            <Image
+              source={require("../../assets/question.png")}
+              style={styles.menuIcon}
+            />
             <Text style={styles.menuText}>문의 사항</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem}>
-            <Image source={require('../../assets/gear.png')} style={styles.menuIcon} />
+            <Image
+              source={require("../../assets/gear.png")}
+              style={styles.menuIcon}
+            />
             <Text style={styles.menuText}>설정</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.bottomLine} />
-      <View style={styles.bottomMenuContainer}>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image source={require('../../assets/zip.png')} style={styles.bottomMenuIcon} />
-          <Text style={styles.bottomMenuText}>홈</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image source={require('../../assets/map2.png')} style={styles.bottomMenuIcon} />
-          <Text style={styles.bottomMenuText}>MAP</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image source={require('../../assets/munity.png')} style={styles.bottomMenuIcon} />
-          <Text style={styles.bottomMenuText}>커뮤니티</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomMenuItem}>
-          <Image source={require('../../assets/human.png')} style={styles.bottomMenuIcon} />
-          <Text style={styles.bottomMenuText}>마이페이지</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   headerText: {
-    fontFamily: 'Jua',
+    fontFamily: "Jua",
     fontSize: 30,
-    textAlign: 'center',
-    color: '#00BCD4',
+    textAlign: "center",
+    color: "#00BCD4",
     marginVertical: 5,
   },
   profileContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#ddd',
+    backgroundColor: "#ddd",
   },
   userName: {
-    fontFamily: 'Jua',
+    fontFamily: "Jua",
     fontSize: 25,
-    color: '#00BCD4',
+    color: "#00BCD4",
     marginTop: 10,
   },
   separator: {
-    width: '80%',
+    width: "80%",
     height: 1,
-    backgroundColor: '#00BCD4',
+    backgroundColor: "#00BCD4",
     marginVertical: 10,
   },
   menuContainer: {
@@ -99,46 +99,29 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   menuRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginBottom: 60,
   },
   menuItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   menuIcon: {
     width: 60,
     height: 60,
   },
   menuText: {
-    fontFamily: 'Jua',
+    fontFamily: "Jua",
     fontSize: 20,
-    color: '#00BCD4',
+    color: "#00BCD4",
     marginTop: 10,
   },
   bottomLine: {
-    width: '100%',
+    width: "100%",
     height: 4,
-    backgroundColor: '#00BCD4',
+    backgroundColor: "#00BCD4",
     marginVertical: 20,
-  },
-  bottomMenuContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  bottomMenuItem: {
-    alignItems: 'center',
-  },
-  bottomMenuIcon: {
-    width: 40,
-    height: 40,
-  },
-  bottomMenuText: {
-    fontFamily: 'Jua',
-    fontSize: 15,
-    color: '#00BCD4',
-    marginTop: 5,
   },
 });
 
-export default mypage;
+export default MyPage;
