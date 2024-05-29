@@ -4,10 +4,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Login from "./src/Login/Login";
 import Agree from "./src/Agree/Agree";
+import mainpage from "./src/MainPage/MainPage";
+import MainPage from "./src/MainPage/MainPage";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
-  Argee: undefined;
+  Agree: undefined;
+  MainPage: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,6 +38,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Agree" component={Agree} />
+        <Stack.Screen name="MainPage" component={MainPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
