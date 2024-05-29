@@ -1,3 +1,5 @@
+// App.js
+
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,7 +11,7 @@ import MainPage from "./src/MainPage/MainPage";
 import MyPage from "./src/MyPage/MyPage";
 import Map from "./src/MapPage/Map";
 import Community from "./src/CommunityPage/Community";
-import MyReview from "./src/MyReview/MyReview";
+import { UserProvider } from "./src/UserContext";
 
 type RootStackParamList = {
   Home: undefined;
@@ -62,8 +64,6 @@ function MainTabNavigator() {
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="커뮤니티" component={Community} />
       <Tab.Screen name="마이페이지" component={MyPage} />
-      <Tab.Screen name="나의 리뷰" component={MyReview} />
-      
     </Tab.Navigator>
   );
 }
@@ -71,30 +71,30 @@ function MainTabNavigator() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Agree"
-          component={Agree}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MainPage"
-          component={MainTabNavigator}
-          options={{ headerShown: false }}
-        />
-        
-      
-      </Stack.Navigator>
+      <UserProvider>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Agree"
+            component={Agree}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MainPage"
+            component={MainTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </UserProvider>
     </NavigationContainer>
   );
 }
