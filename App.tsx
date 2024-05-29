@@ -6,8 +6,6 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Login from "./src/Login/Login";
 import Agree from "./src/Agree/Agree";
 import MainPage from "./src/MainPage/MainPage";
-import MapPage from "./src/MapPage/Map";
-import CommunityPage from "./src/CommunityPage/Community";
 import MyPage from "./src/MyPage/MyPage";
 import Map from "./src/MapPage/Map";
 import Community from "./src/CommunityPage/Community";
