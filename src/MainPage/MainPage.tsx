@@ -7,9 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import Review from "../Review/Review";
 import { useNavigation } from "@react-navigation/native";
-import HotPlace from "../HotPlace/HotPlace";
 
 const MainPage: React.FC = () => {
   const navigation = useNavigation();
