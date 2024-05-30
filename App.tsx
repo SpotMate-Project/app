@@ -26,6 +26,7 @@ import Review from "./src/Review/Review";
 import Rspot from "./src/Rspot/Rspot";
 import HotPlace from "./src/HotPlace/HotPlace";
 import Category from "./src/Category/Category";
+import ReviewPage from "./src/Review/ReviewPage";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -40,6 +41,7 @@ type RootStackParamList = {
   Rspot: undefined;
   HotPlace: undefined;
   Category: undefined;
+  ReviewPage: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -160,6 +162,7 @@ function App() {
             component={Category}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="ReviewPage" component={ReviewPage} />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>
