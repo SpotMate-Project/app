@@ -27,6 +27,7 @@ import Rspot from "./src/Rspot/Rspot";
 import HotPlace from "./src/HotPlace/HotPlace";
 import Category from "./src/Category/Category";
 import ReviewPage from "./src/Review/ReviewPage";
+
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;

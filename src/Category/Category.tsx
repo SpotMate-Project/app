@@ -8,26 +8,24 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+const categories = [
+  "FD6", // 음식점
+  "CE7", // 술집
+  "카페",
+  "FB1", // 패션+뷰티
+  "CS2", // 편의점
+  "HP8", // 병원+약국
+  "SW8", // 헬스
+  "BK9", // 미용, 은행
+  "도서",
+  "CT1", // 영화, 오락
+  "세탁소",
+  "SC4", // 교육
+  "기타",
+];
+
 const Category: React.FC = () => {
   const navigation = useNavigation();
-
-  const categories = [
-    "음식점",
-    "술집",
-    "카페",
-    "패션+뷰티",
-    "편의점",
-    "병원+약국",
-    "헬스",
-    "미용",
-    "도서",
-    "영화",
-    "오락",
-    "은행",
-    "세탁소",
-    "교육",
-    "기타",
-  ];
 
   return (
     <View style={styles.container}>
@@ -37,9 +35,13 @@ const Category: React.FC = () => {
       <Text style={styles.headerText}>관심 카테고리</Text>
       <ScrollView style={styles.categoryContainer}>
         {categories.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.categoryItem}
+            onPress={() => navigation.navigate("Map", { category })}
+          >
             <Text style={styles.categoryText}>{category}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <View style={styles.bottomLine} />
