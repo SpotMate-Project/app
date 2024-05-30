@@ -1,15 +1,48 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Category: React.FC = () => {
   const navigation = useNavigation();
+
+  const categories = [
+    "음식점",
+    "술집",
+    "카페",
+    "패션+뷰티",
+    "편의점",
+    "병원+약국",
+    "헬스",
+    "미용",
+    "도서",
+    "영화",
+    "오락",
+    "은행",
+    "세탁소",
+    "교육",
+    "기타",
+  ];
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>←</Text>
+        <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
-      <Text>관심 카테고리 제작해야함</Text>
+      <Text style={styles.headerText}>관심 카테고리</Text>
+      <ScrollView style={styles.categoryContainer}>
+        {categories.map((category, index) => (
+          <View key={index} style={styles.categoryItem}>
+            <Text style={styles.categoryText}>{category}</Text>
+          </View>
+        ))}
+      </ScrollView>
+      <View style={styles.bottomLine} />
     </View>
   );
 };
@@ -19,7 +52,41 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fff",
-    paddingTop: 100,
+    paddingTop: 50,
+  },
+  backButton: {
+    fontSize: 24,
+    color: "#00BCD4",
+  },
+  headerText: {
+    fontFamily: "Jua",
+    fontSize: 30,
+    textAlign: "center",
+    color: "#00BCD4",
+    marginVertical: 5,
+  },
+  categoryContainer: {
+    flex: 1,
+  },
+  categoryItem: {
+    backgroundColor: "#f9f9f9",
+    padding: 20,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+  categoryText: {
+    fontFamily: "Jua",
+    fontSize: 22,
+    color: "#00BCD4",
+    textAlign: "center",
+  },
+  bottomLine: {
+    width: "100%",
+    height: 4,
+    backgroundColor: "#00BCD4",
+    marginVertical: 20,
   },
 });
 
