@@ -27,6 +27,8 @@ import Rspot from "./src/Rspot/Rspot";
 import HotPlace from "./src/HotPlace/HotPlace";
 import Category from "./src/Category/Category";
 import ReviewPage from "./src/Review/ReviewPage";
+import EditProfilePage from "./src/MyPage/Setting/EditProfilePage";
+import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -42,6 +44,8 @@ type RootStackParamList = {
   HotPlace: undefined;
   Category: undefined;
   ReviewPage: undefined;
+  EditProfilePage: undefined;
+  DeveloperInfo: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -160,6 +164,16 @@ function App() {
           <Stack.Screen
             name="Category"
             component={Category}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="EditProfilePage"
+            component={EditProfilePage}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="DeveloperInfo"
+            component={DeveloperInfo}
             options={{ headerShown: false }}
           />
           <Stack.Screen name="ReviewPage" component={ReviewPage} />
