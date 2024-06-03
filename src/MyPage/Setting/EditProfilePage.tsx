@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  Alert,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -16,20 +24,23 @@ const EditProfilePage: React.FC = () => {
       try {
         const storedEmail = await AsyncStorage.getItem("@user_email");
         if (storedEmail) {
-          const response = await fetch("http://spotweb.hysu.kr:1030/user/info", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: storedEmail,
-            }),
-          });
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
           const data = await response.json();
           if (data.success) {
             setEmail(data.data[0].email);
             setNickname(data.data[0].nickname);
-            setProfileImage(data.data[0].profileImage); // Assuming profileImage is part of the response
+            setProfileImage(data.data[0].imageUrl);
           }
         }
       } catch (error) {
@@ -42,9 +53,10 @@ const EditProfilePage: React.FC = () => {
 
   useEffect(() => {
     const requestPermissions = async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert("카메라권한이있어야됩니다.");
       }
     };
 
@@ -68,17 +80,20 @@ const EditProfilePage: React.FC = () => {
     try {
       const storedEmail = await AsyncStorage.getItem("@user_email");
       if (storedEmail) {
-        const response = await fetch("http://spotweb.hysu.kr:1030/user/update", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: storedEmail,
-            nickname: nickname,
-            profileImage: profileImage,
-          }),
-        });
+        const response = await fetch(
+          "http://spotweb.hysu.kr:1030/user/update",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: storedEmail,
+              nickname: nickname,
+              profileImage: profileImage,
+            }),
+          }
+        );
         const data = await response.json();
         if (data.success) {
           Alert.alert("성공", "프로필이 업데이트되었습니다.");
@@ -101,7 +116,11 @@ const EditProfilePage: React.FC = () => {
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={pickImage}>
           <Image
-            source={profileImage ? { uri: profileImage } : require("../../../assets/profile.png")}
+            source={
+              profileImage
+                ? { uri: profileImage }
+                : require("../../../assets/profile.png")
+            }
             style={styles.profileImage}
           />
         </TouchableOpacity>

@@ -22,6 +22,7 @@ const MyPage: React.FC = () => {
     navigation.navigate("Visit");
   };
   const [nickname, setNickname] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -43,6 +44,7 @@ const MyPage: React.FC = () => {
           const data = await response.json();
           if (data.success) {
             setNickname(data.data[0].nickname);
+            setImageUrl(data.data[0].imageUrl);
           }
         }
       } catch (error) {
@@ -52,14 +54,25 @@ const MyPage: React.FC = () => {
 
     fetchUserInfo();
   }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Spotmate</Text>
+
       <View style={styles.profileContainer}>
-        <Image
-          source={require("../../assets/profile.png")}
-          style={styles.profileImage}
-        />
+        {imageUrl ? (
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.profileImage}
+            resizeMode="contain"
+          />
+        ) : (
+          <Image
+            source={require("../../assets/profile.png")}
+            style={styles.profileImage}
+            resizeMode="contain"
+          />
+        )}
         <Text style={styles.userName}>{nickname}</Text>
         <View style={styles.separator} />
       </View>

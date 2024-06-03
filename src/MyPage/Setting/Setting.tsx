@@ -7,6 +7,7 @@ const SettingsPage: React.FC = () => {
 
   const [nickname, setNickname] = useState<String>();
   const [email, setEmail] = useState<String>();
+  const [imageurl, setImageUrl] = useState<String>();
 
   const handleEditProfilePage = () => {
     navigation.navigate("EditProfilePage");
@@ -45,6 +46,7 @@ const SettingsPage: React.FC = () => {
           if (data.success) {
             setEmail(data.data[0].email);
             setNickname(data.data[0].nickname);
+            setImageUrl(data.data[0].imageUrl);
           }
         }
       } catch (error) {
@@ -61,10 +63,19 @@ const SettingsPage: React.FC = () => {
       </TouchableOpacity>
       <Text style={styles.headerText}>Settings</Text>
       <View style={styles.profileContainer}>
-        <Image
-          source={require("../../../assets/profile.png")}
-          style={styles.profileImage}
-        />
+        {imageurl ? (
+          <Image
+            source={{ uri: imageurl }}
+            style={styles.profileImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={require("../../../assets/profile.png")}
+            style={styles.profileImage}
+            resizeMode="cover"
+          />
+        )}
         <Text style={styles.userName}>{nickname}</Text>
         <Text style={styles.userEmail}>{email}</Text>
       </View>
@@ -109,6 +120,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     backgroundColor: "#ddd",
+    overflow: "hidden",
   },
   userName: {
     fontFamily: "Jua",
