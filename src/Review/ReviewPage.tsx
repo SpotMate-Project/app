@@ -12,10 +12,9 @@ const ReviewPage: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { title } = route.params as { title: string };
-  const [reviewText, setReviewText] = useState('');
+  const [reviewText, setReviewText] = useState("");
 
   const handleReviewSubmit = () => {
-    // Add the logic to handle review submission here
     console.log(`Review for ${title}: ${reviewText}`);
     navigation.goBack();
   };
@@ -33,7 +32,10 @@ const ReviewPage: React.FC = () => {
         value={reviewText}
         onChangeText={setReviewText}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={handleReviewSubmit}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={handleReviewSubmit}
+      >
         <Text style={styles.submitButtonText}>리뷰 제출</Text>
       </TouchableOpacity>
     </View>
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fff",
-    paddingTop: 30, // Reduced paddingTop to minimize top spacing
+    paddingTop: 30,
   },
   backButton: {
     fontSize: 24,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
     height: 150,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   submitButton: {
     backgroundColor: "#00BCD4",

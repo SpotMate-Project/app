@@ -23,6 +23,9 @@ import Category from "./src/Category/Category";
 import ReviewPage from "./src/Review/ReviewPage";
 import EditProfilePage from "./src/MyPage/Setting/EditProfilePage";
 import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
+import FAQ from "./src/MyPage/Question/FAQ/FAQ";
+import Notice from "./src/MyPage/Question/Notice/Notice";
+import Inquiry from "./src/MyPage/Question/Inquiry/inquiry";
 
 type RootStackParamList = {
   Home: undefined;
@@ -42,6 +45,9 @@ type RootStackParamList = {
   EditProfilePage: undefined;
   DeveloperInfo: undefined;
   Map: { category: string };
+  FAQ: undefined;
+  Notice: undefined;
+  Inquiry: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -86,7 +92,6 @@ function MainTabNavigator() {
     >
       <Tab.Screen name="메인페이지" component={MainPage} />
       <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="커뮤니티" component={Community} />
       <Tab.Screen name="마이페이지" component={MyPage} />
     </Tab.Navigator>
   );
@@ -174,6 +179,9 @@ function App() {
           />
           <Stack.Screen name="ReviewPage" component={ReviewPage} />
           <Stack.Screen name="Map" component={Map} />
+          <Stack.Screen name="FAQ" component={FAQ} />
+          <Stack.Screen name="Notice" component={Notice} />
+          <Stack.Screen name="Inquiry" component={Inquiry} />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>
