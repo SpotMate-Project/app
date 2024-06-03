@@ -18,9 +18,7 @@ const MyPage: React.FC = () => {
   const handlequestion = () => {
     navigation.navigate("Question");
   };
-  const handlevisit = () => {
-    navigation.navigate("Visit");
-  };
+
   const [nickname, setNickname] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
 
@@ -85,13 +83,7 @@ const MyPage: React.FC = () => {
             />
             <Text style={styles.menuText}>찜 목록</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={handlevisit}>
-            <Image
-              source={require("../../assets/review.png")}
-              style={styles.menuIcon}
-            />
-            <Text style={styles.menuText}>방문 기록</Text>
-          </TouchableOpacity>
+
           <TouchableOpacity style={styles.menuItem} onPress={handleReview}>
             <Image
               source={require("../../assets/review1.png")}
