@@ -8,12 +8,13 @@ const SettingsPage: React.FC = () => {
   const [nickname, setNickname] = useState<String>();
   const [email, setEmail] = useState<String>();
 
-  const handleEditProfilePage=() => {
+  const handleEditProfilePage = () => {
     navigation.navigate("EditProfilePage");
-  }
-  const handleDeveloperInfo=() => {
+  };
+
+  const handleDeveloperInfo = () => {
     navigation.navigate("DeveloperInfo");
-  }
+  };
   const logout = async () => {
     try {
       await AsyncStorage.clear();
@@ -68,8 +69,10 @@ const SettingsPage: React.FC = () => {
         <Text style={styles.userEmail}>{email}</Text>
       </View>
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem} onPress={handleEditProfilePage}>
-          <Text style={styles.menuText}>회원정보 수정</Text>
+        <TouchableOpacity style={styles.menuItem}>
+          <Text style={styles.menuText} onPress={handleEditProfilePage}>
+            회원정보 수정
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={handleDeveloperInfo}>
           <Text style={styles.menuText}>개발자 정보</Text>

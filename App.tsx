@@ -1,15 +1,9 @@
+// App.tsx
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Settings,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Login from "./src/Login/Login";
 import Agree from "./src/Agree/Agree";
 import MainPage from "./src/MainPage/MainPage";
@@ -27,9 +21,9 @@ import Rspot from "./src/Rspot/Rspot";
 import HotPlace from "./src/HotPlace/HotPlace";
 import Category from "./src/Category/Category";
 import ReviewPage from "./src/Review/ReviewPage";
-
 import EditProfilePage from "./src/MyPage/Setting/EditProfilePage";
 import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
+
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -47,6 +41,7 @@ type RootStackParamList = {
   ReviewPage: undefined;
   EditProfilePage: undefined;
   DeveloperInfo: undefined;
+  Map: { category: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -178,6 +173,7 @@ function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="ReviewPage" component={ReviewPage} />
+          <Stack.Screen name="Map" component={Map} />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>
