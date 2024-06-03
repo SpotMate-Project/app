@@ -44,7 +44,7 @@ const EditProfilePage: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error("유저정보가 없습니다:", error);
+        console.error("유저 정보가 없습니다:", error);
       }
     };
 
@@ -56,7 +56,7 @@ const EditProfilePage: React.FC = () => {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("카메라권한이있어야됩니다.");
+        Alert.alert("권한 필요", "카메라 권한이 필요합니다.");
       }
     };
 
@@ -72,7 +72,10 @@ const EditProfilePage: React.FC = () => {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.uri);
+      const selectedImageUri = result.assets[0].uri;
+      setProfileImage(selectedImageUri);
+    } else {
+      console.log("이미지 수정이 취소되었습니다.");
     }
   };
 
@@ -83,14 +86,14 @@ const EditProfilePage: React.FC = () => {
         const response = await fetch(
           "http://spotweb.hysu.kr:1030/user/update",
           {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email: storedEmail,
               nickname: nickname,
-              profileImage: profileImage,
+              imageUrl: profileImage,
             }),
           }
         );
@@ -130,16 +133,9 @@ const EditProfilePage: React.FC = () => {
           onChangeText={setNickname}
           placeholder="Nickname"
         />
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Email"
-          editable={false}
-        />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={saveProfile}>
-        <Text style={styles.saveButtonText}>Save</Text>
+        <Text style={styles.saveButtonText}>수정하기</Text>
       </TouchableOpacity>
     </View>
   );
