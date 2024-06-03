@@ -90,9 +90,17 @@ function MainTabNavigator() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="메인페이지" component={MainPage} />
-      <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="마이페이지" component={MyPage} />
+      <Tab.Screen
+        name="메인페이지"
+        component={MainPage}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="마이페이지"
+        component={MyPage}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }
@@ -177,11 +185,31 @@ function App() {
             component={DeveloperInfo}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ReviewPage" component={ReviewPage} />
-          <Stack.Screen name="Map" component={Map} />
-          <Stack.Screen name="FAQ" component={FAQ} />
-          <Stack.Screen name="Notice" component={Notice} />
-          <Stack.Screen name="Inquiry" component={Inquiry} />
+          <Stack.Screen
+            name="ReviewPage"
+            component={ReviewPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Map"
+            component={Map}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="FAQ"
+            component={FAQ}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Notice"
+            component={Notice}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Inquiry"
+            component={Inquiry}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>

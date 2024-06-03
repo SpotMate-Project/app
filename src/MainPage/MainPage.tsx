@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#00BCD4",
     marginVertical: 5,
+    marginTop: 80,
+    marginBottom: 40,
   },
   banner: {
     alignItems: "center",

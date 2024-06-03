@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#00BCD4",
     marginVertical: 5,
+    marginTop: 80,
   },
   profileContainer: {
     alignItems: "center",
