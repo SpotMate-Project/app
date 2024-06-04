@@ -1,4 +1,4 @@
-// src/Category/Category.tsx
+
 import React from "react";
 import {
   StyleSheet,
