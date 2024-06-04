@@ -137,6 +137,12 @@ const EditProfilePage: React.FC = () => {
       <TouchableOpacity style={styles.saveButton} onPress={saveProfile}>
         <Text style={styles.saveButtonText}>수정하기</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.verificationButton}
+        onPress={() => navigation.navigate("EmailVerification")}
+      >
+        <Text style={styles.verificationButtonText}>이메일 인증 및 비밀번호 변경</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -183,6 +189,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   saveButtonText: {
+    fontFamily: "Jua",
+    fontSize: 20,
+    color: "#fff",
+  },
+  verificationButton: {
+    marginTop: 20,
+    backgroundColor: "#00BCD4",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  verificationButtonText: {
     fontFamily: "Jua",
     fontSize: 20,
     color: "#fff",
