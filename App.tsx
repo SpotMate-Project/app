@@ -1,15 +1,9 @@
+// App.tsx
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Settings,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Login from "./src/Login/Login";
 import Agree from "./src/Agree/Agree";
 import MainPage from "./src/MainPage/MainPage";
@@ -29,6 +23,10 @@ import Category from "./src/Category/Category";
 import ReviewPage from "./src/Review/ReviewPage";
 import EditProfilePage from "./src/MyPage/Setting/EditProfilePage";
 import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
+import FAQ from "./src/MyPage/Question/FAQ/FAQ";
+import Notice from "./src/MyPage/Question/Notice/Notice";
+import Inquiry from "./src/MyPage/Question/Inquiry/inquiry";
+
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -46,6 +44,10 @@ type RootStackParamList = {
   ReviewPage: undefined;
   EditProfilePage: undefined;
   DeveloperInfo: undefined;
+  Map: { category: string };
+  FAQ: undefined;
+  Notice: undefined;
+  Inquiry: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -88,10 +90,17 @@ function MainTabNavigator() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="메인페이지" component={MainPage} />
-      <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="커뮤니티" component={Community} />
-      <Tab.Screen name="마이페이지" component={MyPage} />
+      <Tab.Screen
+        name="메인페이지"
+        component={MainPage}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="마이페이지"
+        component={MyPage}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }
@@ -166,17 +175,41 @@ function App() {
             component={Category}
             options={{ headerShown: false }}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}
             options={{ headerShown: false }}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="DeveloperInfo"
             component={DeveloperInfo}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ReviewPage" component={ReviewPage} />
+          <Stack.Screen
+            name="ReviewPage"
+            component={ReviewPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Map"
+            component={Map}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="FAQ"
+            component={FAQ}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Notice"
+            component={Notice}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Inquiry"
+            component={Inquiry}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>

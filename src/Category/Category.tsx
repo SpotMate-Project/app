@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   StyleSheet,
@@ -8,45 +9,25 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+const categories = [
+  "FD6", // 음식점
+  "CE7", // 카페
+  "PUB", // 술집
+  "CS2", // 편의점
+];
+
 const Category: React.FC = () => {
   const navigation = useNavigation();
 
-  const categories = [
-    "음식점",
-    "술집",
-    "카페",
-    "패션+뷰티",
-    "편의점",
-    "병원+약국",
-    "헬스",
-    "미용",
-    "도서",
-    "영화",
-    "오락",
-    "은행",
-    "세탁소",
-    "교육",
-    "기타",
-  ];
-
-  const handleCategorySelect = (category: string) => {
-    if (category === "편의점") {
-      navigation.navigate("Map", { category });
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.backButton}>←</Text>
-      </TouchableOpacity>
       <Text style={styles.headerText}>관심 카테고리</Text>
       <ScrollView style={styles.categoryContainer}>
         {categories.map((category, index) => (
           <TouchableOpacity
             key={index}
             style={styles.categoryItem}
-            onPress={() => handleCategorySelect(category)}
+            onPress={() => navigation.navigate("Map", { category })}
           >
             <Text style={styles.categoryText}>{category}</Text>
           </TouchableOpacity>
@@ -63,10 +44,6 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
     paddingTop: 50,
-  },
-  backButton: {
-    fontSize: 24,
-    color: "#00BCD4",
   },
   headerText: {
     fontFamily: "Jua",

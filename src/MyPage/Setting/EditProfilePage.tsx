@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  Alert,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -16,24 +24,27 @@ const EditProfilePage: React.FC = () => {
       try {
         const storedEmail = await AsyncStorage.getItem("@user_email");
         if (storedEmail) {
-          const response = await fetch("http://spotweb.hysu.kr:1030/user/info", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: storedEmail,
-            }),
-          });
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
           const data = await response.json();
           if (data.success) {
             setEmail(data.data[0].email);
             setNickname(data.data[0].nickname);
-            setProfileImage(data.data[0].profileImage); // Assuming profileImage is part of the response
+            setProfileImage(data.data[0].imageUrl);
           }
         }
       } catch (error) {
-        console.error("유저정보가 없습니다:", error);
+        console.error("유저 정보가 없습니다:", error);
       }
     };
 
@@ -42,9 +53,10 @@ const EditProfilePage: React.FC = () => {
 
   useEffect(() => {
     const requestPermissions = async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        Alert.alert("권한 필요", "카메라 권한이 필요합니다.");
       }
     };
 
@@ -60,7 +72,10 @@ const EditProfilePage: React.FC = () => {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.uri);
+      const selectedImageUri = result.assets[0].uri;
+      setProfileImage(selectedImageUri);
+    } else {
+      console.log("이미지 수정이 취소되었습니다.");
     }
   };
 
@@ -68,17 +83,20 @@ const EditProfilePage: React.FC = () => {
     try {
       const storedEmail = await AsyncStorage.getItem("@user_email");
       if (storedEmail) {
-        const response = await fetch("http://spotweb.hysu.kr:1030/user/update", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: storedEmail,
-            nickname: nickname,
-            profileImage: profileImage,
-          }),
-        });
+        const response = await fetch(
+          "http://spotweb.hysu.kr:1030/user/update",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: storedEmail,
+              nickname: nickname,
+              imageUrl: profileImage,
+            }),
+          }
+        );
         const data = await response.json();
         if (data.success) {
           Alert.alert("성공", "프로필이 업데이트되었습니다.");
@@ -101,7 +119,11 @@ const EditProfilePage: React.FC = () => {
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={pickImage}>
           <Image
-            source={profileImage ? { uri: profileImage } : require("../../../assets/profile.png")}
+            source={
+              profileImage
+                ? { uri: profileImage }
+                : require("../../../assets/profile.png")
+            }
             style={styles.profileImage}
           />
         </TouchableOpacity>
@@ -111,16 +133,9 @@ const EditProfilePage: React.FC = () => {
           onChangeText={setNickname}
           placeholder="Nickname"
         />
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Email"
-          editable={false}
-        />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={saveProfile}>
-        <Text style={styles.saveButtonText}>Save</Text>
+        <Text style={styles.saveButtonText}>수정하기</Text>
       </TouchableOpacity>
     </View>
   );

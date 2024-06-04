@@ -132,7 +132,9 @@ const HotPlace: React.FC = () => {
         return places.sort((a, b) => b.count - a.count);
       case "likes":
         return places.sort(
-          (a, b) => (likedItems.has(b.title) ? 1 : 0) - (likedItems.has(a.title) ? 1 : 0)
+          (a, b) =>
+            (likedItems.has(b.title) ? 1 : 0) -
+            (likedItems.has(a.title) ? 1 : 0)
         );
       case "visits":
       default:
@@ -169,23 +171,33 @@ const HotPlace: React.FC = () => {
       <View style={styles.sortContainer}>
         <Text style={styles.realTimeText}>실시간 인기 스팟</Text>
         <View style={styles.sortButtons}>
-          <TouchableOpacity onPress={() => setShowSortOptions(!showSortOptions)}>
+          <TouchableOpacity
+            onPress={() => setShowSortOptions(!showSortOptions)}
+          >
             <Text style={styles.sortButtonText}>
-              {sortCriteria === "visits" ? "방문자 수" : sortCriteria === "reviews" ? "리뷰 수" : "찜 수"}
+              {sortCriteria === "visits"
+                ? "방문자 수"
+                : sortCriteria === "reviews"
+                ? "리뷰 수"
+                : "찜 수"}
             </Text>
           </TouchableOpacity>
           {showSortOptions && (
             <View style={styles.sortOptions}>
-              <TouchableOpacity onPress={() => {
-                setSortCriteria("reviews");
-                setShowSortOptions(false);
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setSortCriteria("reviews");
+                  setShowSortOptions(false);
+                }}
+              >
                 <Text style={styles.sortOptionText}>리뷰 수</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-                setSortCriteria("likes");
-                setShowSortOptions(false);
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setSortCriteria("likes");
+                  setShowSortOptions(false);
+                }}
+              >
                 <Text style={styles.sortOptionText}>찜 수</Text>
               </TouchableOpacity>
             </View>

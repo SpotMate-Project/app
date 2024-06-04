@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 const SettingsPage: React.FC = () => {
   const navigation = useNavigation();
 
   const [nickname, setNickname] = useState<String>();
   const [email, setEmail] = useState<String>();
+  const [imageurl, setProfileImage] = useState<String>();
 
-  const handleEditProfilePage=() => {
+  const handleEditProfilePage = () => {
     navigation.navigate("EditProfilePage");
-  }
-  const handleDeveloperInfo=() => {
+  };
+
+  const handleDeveloperInfo = () => {
     navigation.navigate("DeveloperInfo");
-  }
+  };
   const logout = async () => {
     try {
       await AsyncStorage.clear();
@@ -23,36 +25,36 @@ const SettingsPage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const storedEmail = await AsyncStorage.getItem("@user_email");
-        if (storedEmail) {
-          const response = await fetch(
-            "http://spotweb.hysu.kr:1030/user/info",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: storedEmail,
-              }),
-            }
-          );
-          const data = await response.json();
-          if (data.success) {
-            setEmail(data.data[0].email);
-            setNickname(data.data[0].nickname);
-          }
+  const fetchUserInfo = async () => {
+    try {
+      const storedEmail = await AsyncStorage.getItem("@user_email");
+      if (storedEmail) {
+        const response = await fetch("http://spotweb.hysu.kr:1030/user/info", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: storedEmail,
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          setEmail(data.data[0].email);
+          setNickname(data.data[0].nickname);
+          setProfileImage(data.data[0].imageUrl);
         }
-      } catch (error) {
-        console.error("유저정보가 없습니다:", error);
       }
-    };
+    } catch (error) {
+      console.error("유저 정보가 없습니다:", error);
+    }
+  };
 
-    fetchUserInfo();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserInfo();
+    }, [])
+  );
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -60,16 +62,27 @@ const SettingsPage: React.FC = () => {
       </TouchableOpacity>
       <Text style={styles.headerText}>Settings</Text>
       <View style={styles.profileContainer}>
-        <Image
-          source={require("../../../assets/profile.png")}
-          style={styles.profileImage}
-        />
+        {imageurl ? (
+          <Image
+            source={{ uri: imageurl }}
+            style={styles.profileImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={require("../../../assets/profile.png")}
+            style={styles.profileImage}
+            resizeMode="cover"
+          />
+        )}
         <Text style={styles.userName}>{nickname}</Text>
         <Text style={styles.userEmail}>{email}</Text>
       </View>
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem} onPress={handleEditProfilePage}>
-          <Text style={styles.menuText}>회원정보 수정</Text>
+        <TouchableOpacity style={styles.menuItem}>
+          <Text style={styles.menuText} onPress={handleEditProfilePage}>
+            회원정보 수정
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={handleDeveloperInfo}>
           <Text style={styles.menuText}>개발자 정보</Text>
@@ -106,6 +119,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     backgroundColor: "#ddd",
+    overflow: "hidden",
   },
   userName: {
     fontFamily: "Jua",
