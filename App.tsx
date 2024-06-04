@@ -25,7 +25,7 @@ import EditProfilePage from "./src/MyPage/Setting/EditProfilePage";
 import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
 import FAQ from "./src/MyPage/Question/FAQ/FAQ";
 import Notice from "./src/MyPage/Question/Notice/Notice";
-import Inquiry from "./src/MyPage/Question/Inquiry/inquiry";
+import Inquiry from "./src/MyPage/Question/Inquiry/Inquiry";
 
 type RootStackParamList = {
   Home: undefined;
@@ -95,7 +95,7 @@ function MainTabNavigator() {
         component={MainPage}
         options={{ headerShown: false }}
       />
-      <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
+      <Tab.Screen name="Map" component={Map} />
       <Tab.Screen
         name="마이페이지"
         component={MyPage}
