@@ -29,6 +29,12 @@ const Category: React.FC = () => {
     "기타",
   ];
 
+  const handleCategorySelect = (category: string) => {
+    if (category === "편의점") {
+      navigation.navigate("Map", { category });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -37,9 +43,13 @@ const Category: React.FC = () => {
       <Text style={styles.headerText}>관심 카테고리</Text>
       <ScrollView style={styles.categoryContainer}>
         {categories.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.categoryItem}
+            onPress={() => handleCategorySelect(category)}
+          >
             <Text style={styles.categoryText}>{category}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <View style={styles.bottomLine} />
