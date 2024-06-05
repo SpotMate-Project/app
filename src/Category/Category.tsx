@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   StyleSheet,
@@ -11,9 +10,18 @@ import { useNavigation } from "@react-navigation/native";
 
 const categories = [
   "FD6", // 음식점
-  "CE7", // 카페
-  "PUB", // 술집
+  "CE7", // 술집
+  "카페",
+  "FB1", // 패션+뷰티
   "CS2", // 편의점
+  "HP8", // 병원+약국
+  "SW8", // 헬스
+  "BK9", // 미용, 은행
+  "도서",
+  "CT1", // 영화, 오락
+  "세탁소",
+  "SC4", // 교육
+  "기타",
 ];
 
 const Category: React.FC = () => {
@@ -21,6 +29,9 @@ const Category: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.backButton}>←</Text>
+      </TouchableOpacity>
       <Text style={styles.headerText}>관심 카테고리</Text>
       <ScrollView style={styles.categoryContainer}>
         {categories.map((category, index) => (
@@ -44,6 +55,10 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
     paddingTop: 50,
+  },
+  backButton: {
+    fontSize: 24,
+    color: "#00BCD4",
   },
   headerText: {
     fontFamily: "Jua",
