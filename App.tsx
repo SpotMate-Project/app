@@ -26,6 +26,10 @@ import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
 import FAQ from "./src/MyPage/Question/FAQ/FAQ";
 import Notice from "./src/MyPage/Question/Notice/Notice";
 import Inquiry from "./src/MyPage/Question/Inquiry/Inquiry";
+import NewInquiry from "./src/MyPage/Question/Inquiry/NewInquiry";
+import AnswerInquiry from "./src/MyPage/Question/Inquiry/AnswerInquiry";
+import EmailVerificationPage from "./src/MyPage/Setting/EmailVerificationPage";
+import PasswordResetPage from "./src/MyPage/Setting/PasswordResetPage";
 import MapCategory from "./src/MapPage/MapCategory";
 
 type RootStackParamList = {
@@ -50,6 +54,10 @@ type RootStackParamList = {
   FAQ: undefined;
   Notice: undefined;
   Inquiry: undefined;
+  NewInquiry: undefined;
+  AnswerInquiry: undefined;
+  EmailVerification: undefined;
+  PasswordReset: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -210,6 +218,26 @@ function App() {
           <Stack.Screen
             name="Inquiry"
             component={Inquiry}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="NewInquiry"
+            component={NewInquiry}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AnswerInquiry"
+            component={AnswerInquiry}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EmailVerification"
+            component={EmailVerificationPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PasswordReset"
+            component={PasswordResetPage}
             options={{ headerShown: false }}
           />
           <Stack.Screen name="MapCategory" component={MapCategory} />
