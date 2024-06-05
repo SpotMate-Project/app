@@ -83,7 +83,9 @@ const Login: React.FC<Props> = ({ navigation }) => {
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>로그인</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => alert("기능 구현해야함")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EmailVerification")}
+      >
         <Text style={styles.forgotPasswordText}>비밀번호 찾기</Text>
       </TouchableOpacity>
       <TouchableOpacity
