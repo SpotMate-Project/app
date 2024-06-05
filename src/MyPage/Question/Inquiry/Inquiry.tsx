@@ -71,7 +71,7 @@ const Inquiry = () => {
   const handleInquiryPress = (inquiry) => {
     if (state === 3) {
       navigation.navigate("AnswerInquiry", { inquiry });
-    } else if (inquiry.user_id === userid || state === 1) {
+    } else if (inquiry.user_id === userid && state === 1) {
       navigation.navigate("ReplyInquiry", { inquiry });
     } else {
       Alert.alert("알림", "작성자 및 개발자만 해당 문의를 볼 수 있습니다.");
