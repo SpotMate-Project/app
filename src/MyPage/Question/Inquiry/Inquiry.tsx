@@ -13,7 +13,12 @@ const Inquiry = () => {
 
   // Dummy data for inquiries
   const inquiries = [
-    { id: 1, question: "저 1:1 문의 요청합니다!", answer: "답변살라살라", author: "user1" },
+    {
+      id: 1,
+      question: "저 1:1 문의 요청합니다!",
+      answer: "답변살라살라",
+      author: "user1",
+    },
     { id: 2, question: "문의 2", answer: "답변 2", author: "user2" },
   ];
 
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
   backButton: {
     fontSize: 24,
     color: "#00BCD4",
+    marginTop: 40,
   },
   headerText: {
     fontFamily: "Jua",
@@ -110,6 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 40,
   },
   fabText: {
     fontSize: 36,

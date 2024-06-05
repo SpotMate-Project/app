@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const AnswerInquiry = ({ route }) => {
@@ -23,7 +29,9 @@ const AnswerInquiry = ({ route }) => {
       </TouchableOpacity>
       <Text style={styles.headerText}>답변 작성</Text>
       <Text style={styles.questionText}>제목: {inquiry.question}</Text>
-      <Text style={styles.contentText}>내용: 이곳에 문의 내용이 들어갑니다. 예시로 작성된 내용입니다.</Text>
+      <Text style={styles.contentText}>
+        내용: 이곳에 문의 내용이 들어갑니다. 예시로 작성된 내용입니다.
+      </Text>
       <TextInput
         style={styles.input}
         multiline
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
   backButton: {
     fontSize: 24,
     color: "#00BCD4",
+    marginTop: 40,
   },
   headerText: {
     fontFamily: "Jua",
