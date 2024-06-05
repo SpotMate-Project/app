@@ -26,6 +26,7 @@ import DeveloperInfo from "./src/MyPage/Setting/DeveloperInfo";
 import FAQ from "./src/MyPage/Question/FAQ/FAQ";
 import Notice from "./src/MyPage/Question/Notice/Notice";
 import Inquiry from "./src/MyPage/Question/Inquiry/Inquiry";
+import MapCategory from "./src/MapPage/MapCategory";
 
 type RootStackParamList = {
   Home: undefined;
@@ -44,7 +45,8 @@ type RootStackParamList = {
   ReviewPage: undefined;
   EditProfilePage: undefined;
   DeveloperInfo: undefined;
-  Map: { category: string };
+  Map: undefined;
+  MapCategory: { category: string };
   FAQ: undefined;
   Notice: undefined;
   Inquiry: undefined;
@@ -210,6 +212,7 @@ function App() {
             component={Inquiry}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="MapCategory" component={MapCategory} />
         </Stack.Navigator>
       </UserProvider>
     </NavigationContainer>
