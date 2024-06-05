@@ -11,14 +11,28 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 const AnswerInquiry = ({ route }) => {
   const navigation = useNavigation();
   const { inquiry } = route.params;
-
+  const answer_id = inquiry.inquiry_id;
   const [answer, setAnswer] = useState(inquiry.answer || "");
   const handleSubmit = () => {
-    // Here you would typically update the inquiry's answer in your data source (e.g., server or local state)
-    // This is a placeholder implementation, replace it with actual data handling logic
-    console.log(`Updated answer for inquiry ${inquiry.id}: ${answer}`);
-    inquiry.answer = answer; // Update the local state (in real app, update server or global state)
-    navigation.goBack();
+    fetch(`http://spotweb.hysu.kr:1030/api/answer/${inquiry.inquiry_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        inquiry_id: answer_id,
+        answer: answer,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          setAnswer(answer);
+          navigation.goBack();
+        } else {
+          alert("답변작성실패");
+        }
+      });
   };
 
   return (
@@ -27,10 +41,8 @@ const AnswerInquiry = ({ route }) => {
         <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
       <Text style={styles.headerText}>답변 작성</Text>
-      <Text style={styles.questionText}>제목: {inquiry.question}</Text>
-      <Text style={styles.contentText}>
-        내용: 이곳에 문의 내용이 들어갑니다. 예시로 작성된 내용입니다.
-      </Text>
+      <Text style={styles.questionText}>제목: {inquiry.title}</Text>
+      <Text style={styles.contentText}>문의내용 : {inquiry.body}</Text>
       <TextInput
         style={styles.input}
         multiline
