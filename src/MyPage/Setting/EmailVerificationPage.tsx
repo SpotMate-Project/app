@@ -1,30 +1,67 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const EmailVerificationPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
+  const [auth_code, setauth_code] = useState<string>("");
   const navigation = useNavigation();
 
-  const verifyEmail = async () => {
+  const sendVerificationCode = async () => {
     try {
-      const response = await fetch("http://spotweb.hysu.kr:1030/user/verify-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        "http://spotweb.hysu.kr:1030/user/auth/send",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
-        Alert.alert("성공", "이메일이 성공적으로 인증되었습니다.", [
-          { text: "확인", onPress: () => navigation.navigate("PasswordReset", { email }) },
-        ]);
+        Alert.alert("성공", "이메일로 인증 코드를 보냈습니다.");
       } else {
         Alert.alert("오류", "이메일 인증에 실패했습니다.");
       }
     } catch (error) {
       console.error("이메일 인증 실패:", error);
+    }
+  };
+
+  const verifyCode = async () => {
+    try {
+      const response = await fetch(
+        "http://spotweb.hysu.kr:1030/user/auth/verify",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, auth_code }),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        Alert.alert("성공", "이메일이 성공적으로 인증되었습니다.", [
+          {
+            text: "확인",
+            onPress: () => navigation.navigate("PasswordReset", { email }),
+          },
+        ]);
+      } else {
+        Alert.alert("오류", "인증 코드가 올바르지 않습니다.");
+      }
+    } catch (error) {
+      console.error("인증 실패:", error);
     }
   };
 
@@ -38,8 +75,20 @@ const EmailVerificationPage: React.FC = () => {
         placeholder="Email"
         keyboardType="email-address"
       />
-      <TouchableOpacity style={styles.verifyButton} onPress={verifyEmail}>
-        <Text style={styles.verifyButtonText}>인증하기</Text>
+      <TouchableOpacity
+        style={styles.verifyButton}
+        onPress={sendVerificationCode}
+      >
+        <Text style={styles.verifyButtonText}>인증 코드 보내기</Text>
+      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        value={auth_code}
+        onChangeText={setauth_code}
+        placeholder="인증 코드"
+      />
+      <TouchableOpacity style={styles.verifyButton} onPress={verifyCode}>
+        <Text style={styles.verifyButtonText}>인증 확인</Text>
       </TouchableOpacity>
     </View>
   );
@@ -58,6 +107,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#00BCD4",
     marginVertical: 5,
+    marginTop: 200,
   },
   input: {
     fontFamily: "Jua",

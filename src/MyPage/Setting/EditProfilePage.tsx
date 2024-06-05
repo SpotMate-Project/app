@@ -141,7 +141,7 @@ const EditProfilePage: React.FC = () => {
         style={styles.verificationButton}
         onPress={() => navigation.navigate("EmailVerification")}
       >
-        <Text style={styles.verificationButtonText}>이메일 인증 및 비밀번호 변경</Text>
+        <Text style={styles.verificationButtonText}>비밀번호 변경</Text>
       </TouchableOpacity>
     </View>
   );
