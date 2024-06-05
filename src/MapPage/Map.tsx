@@ -15,6 +15,7 @@ const Map: React.FC = () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         Alert.alert("위치 권한이 부여되지 않았습니다.");
+        setLoading(false);
         return;
       }
 
@@ -37,7 +38,7 @@ const Map: React.FC = () => {
       <style>
       .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
       .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-      .map_wrap {position:relative;width:100%;height:2000px;}
+      .map_wrap {position:relative;width:100%;height:1800px;}
       #menu_wrap {position:absolute;top:10px;left:10px;width:25%;height:25%;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
       .bg_white {background:#fff;}
       #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
@@ -96,6 +97,7 @@ const Map: React.FC = () => {
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e19c9e836c0df1b8953cd661cbec4df2&libraries=services"></script>
   <script>
   var markers = [];
+  var currentLocationMarker = null;
   
   var mapContainer = document.getElementById('map'), 
       mapOption = { 
@@ -168,6 +170,8 @@ const Map: React.FC = () => {
       listEl.appendChild(fragment);
       menuEl.scrollTop = 0;
       map.setBounds(bounds);
+      map.setLevel(4);
+      addCurrentLocationMarker(new kakao.maps.LatLng(${location.latitude}, ${location.longitude}));
   }
   
   function getListItem(index, places) {
@@ -210,6 +214,21 @@ const Map: React.FC = () => {
       markers.push(marker);  
   
       return marker;
+  }
+  
+  function addCurrentLocationMarker(position) {
+      if (currentLocationMarker) {
+          currentLocationMarker.setPosition(position);
+      } else {
+          currentLocationMarker = new kakao.maps.Marker({
+              position: position,
+              image: new kakao.maps.MarkerImage(
+                  'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+                  new kakao.maps.Size(24, 35)
+              )
+          });
+          currentLocationMarker.setMap(map);
+      }
   }
   
   function removeMarker() {
@@ -260,6 +279,9 @@ const Map: React.FC = () => {
           el.removeChild (el.lastChild);
       }
   }
+
+  // Add marker for current location
+  addCurrentLocationMarker(new kakao.maps.LatLng(${location.latitude}, ${location.longitude}));
   </script>
   </body>
   </html>
