@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // useState, useEffect 추가
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,35 +7,33 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Inquiry = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [inquiries, setInquiries] = useState([]);
-  const [userid, setuserid] = useState<number>();
-  const [state, setstate] = useState<number>();
+  const [userid, setUserid] = useState<number>();
+  const [state, setState] = useState<number>();
 
-  useEffect(() => {
-    const fetchInquiries = async () => {
-      try {
-        const response = await fetch(
-          "http://spotweb.hysu.kr:1030/api/Inquiry",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const res = await response.json();
-        setInquiries(res.data);
-      } catch (error) {
-        console.error("오류 데이터 전송", error);
-      }
-    };
-    fetchInquiries();
-  }, []);
+  const fetchInquiries = async () => {
+    try {
+      const response = await fetch(
+        "http://spotweb.hysu.kr:1030/api/Inquiry",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const res = await response.json();
+      setInquiries(res.data);
+    } catch (error) {
+      console.error("오류 데이터 전송", error);
+    }
+  };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -56,8 +54,8 @@ const Inquiry = () => {
           );
           const data = await response.json();
           if (data.success) {
-            setuserid(data.data[0].id);
-            setstate(data.data[0].state);
+            setUserid(data.data[0].id);
+            setState(data.data[0].state);
           }
         }
       } catch (error) {
@@ -67,9 +65,17 @@ const Inquiry = () => {
     fetchUserInfo();
   }, []);
 
+  useEffect(() => {
+    if (isFocused) {
+      fetchInquiries();
+    }
+  }, [isFocused]);
+
   const handleInquiryPress = (inquiry) => {
-    if (inquiry.user_id == userid || state == 3) {
+    if (inquiry.user_id === userid || state === 3) {
       navigation.navigate("AnswerInquiry", { inquiry });
+    } else if (state === 1) {
+      Alert.alert("문의 내용", `제목: ${inquiry.title}\n내용: ${inquiry.body}`);
     } else {
       Alert.alert("알림", "작성자 및 개발자만 해당 문의를 볼 수 있습니다.");
     }
