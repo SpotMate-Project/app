@@ -1,30 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   View,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScrollView } from "react-native-gesture-handler";
 
 const NewInquiry = () => {
   const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
+  const [userid, setUserid] = useState<number>();
   const navigation = useNavigation();
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const storedEmail = await AsyncStorage.getItem("@user_email");
+        if (storedEmail) {
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
+          const data = await response.json();
+          if (data.success) {
+            setUserid(data.data[0].id);
+          }
+        }
+      } catch (error) {
+        console.error("유저 정보가 없습니다.", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   const handleSubmit = () => {
-    // Handle the submission logic here
-    console.log("New Inquiry Submitted:", { title, question });
-    navigation.goBack();
+    fetch("http://spotweb.hysu.kr:1030/api/Inquiry/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: userid,
+        title: title,
+        body: question,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          Alert.alert("1:1 문의를 해주셔서 감사합니다");
+          navigation.goBack();
+        } else {
+          alert("문의작성에 실패하였습니다.");
+        }
+      });
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
-      <Text style={styles.headerText}>새 문의 작성</Text>
+      <Text style={styles.headerText}>1:1 문의 작성</Text>
       <TextInput
         style={styles.textInput}
         placeholder="문의 제목을 입력하세요"
@@ -41,7 +90,7 @@ const NewInquiry = () => {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>제출</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
