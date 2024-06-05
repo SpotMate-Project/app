@@ -1,33 +1,77 @@
-import React from "react";
+import React, { useState, useEffect } from "react"; // useState, useEffect 추가
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Inquiry = () => {
   const navigation = useNavigation();
+  const [inquiries, setInquiries] = useState([]);
+  const [userid, setuserid] = useState<number>();
+  const [state, setstate] = useState<number>();
 
-  // Dummy data for inquiries
-  const inquiries = [
-    {
-      id: 1,
-      question: "저 1:1 문의 요청합니다!",
-      answer: "답변살라살라",
-      author: "user1",
-    },
-    { id: 2, question: "문의 2", answer: "답변 2", author: "user2" },
-  ];
+  useEffect(() => {
+    const fetchInquiries = async () => {
+      try {
+        const response = await fetch(
+          "http://spotweb.hysu.kr:1030/api/Inquiry",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const res = await response.json();
+        setInquiries(res.data);
+      } catch (error) {
+        console.error("오류 데이터 전송", error);
+      }
+    };
+    fetchInquiries();
+  }, []);
 
-  // Dummy user data
-  const currentUser = { id: "user1", role: "admin" }; // Change role to 'admin' to test as admin
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const storedEmail = await AsyncStorage.getItem("@user_email");
+        if (storedEmail) {
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
+          const data = await response.json();
+          if (data.success) {
+            setuserid(data.data[0].id);
+            setstate(data.data[0].state);
+          }
+        }
+      } catch (error) {
+        console.error("유저 정보가 없습니다.", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   const handleInquiryPress = (inquiry) => {
-    if (currentUser.role === "admin") {
+    if (inquiry.user_id == userid || state == 3) {
       navigation.navigate("AnswerInquiry", { inquiry });
+    } else {
+      Alert.alert("알림", "작성자 및 개발자만 해당 문의를 볼 수 있습니다.");
     }
   };
 
@@ -38,21 +82,16 @@ const Inquiry = () => {
       </TouchableOpacity>
       <Text style={styles.headerText}>1:1 문의</Text>
       <ScrollView style={styles.contentContainer}>
-        {inquiries
-          .filter(
-            (inquiry) =>
-              currentUser.role === "admin" || inquiry.author === currentUser.id
-          )
-          .map((inquiry) => (
-            <TouchableOpacity
-              key={inquiry.id}
-              style={styles.inquiryItem}
-              onPress={() => handleInquiryPress(inquiry)}
-            >
-              <Text style={styles.itemText}>{inquiry.question}</Text>
-              <Text style={styles.answerText}>{inquiry.answer}</Text>
-            </TouchableOpacity>
-          ))}
+        {inquiries.map((inquiry) => (
+          <TouchableOpacity
+            key={inquiry.inquiry_id}
+            style={styles.inquiryItem}
+            onPress={() => handleInquiryPress(inquiry)}
+          >
+            <Text style={styles.itemText}>{inquiry.title}</Text>
+            <Text style={styles.answerText}>{inquiry.body}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
       <TouchableOpacity
         style={styles.fab}
