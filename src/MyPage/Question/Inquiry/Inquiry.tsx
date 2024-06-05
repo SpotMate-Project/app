@@ -19,15 +19,12 @@ const Inquiry = () => {
 
   const fetchInquiries = async () => {
     try {
-      const response = await fetch(
-        "http://spotweb.hysu.kr:1030/api/Inquiry",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("http://spotweb.hysu.kr:1030/api/Inquiry", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const res = await response.json();
       setInquiries(res.data);
     } catch (error) {
@@ -72,10 +69,10 @@ const Inquiry = () => {
   }, [isFocused]);
 
   const handleInquiryPress = (inquiry) => {
-    if (inquiry.user_id === userid || state === 3) {
+    if (state === 3) {
       navigation.navigate("AnswerInquiry", { inquiry });
-    } else if (state === 1) {
-      Alert.alert("문의 내용", `제목: ${inquiry.title}\n내용: ${inquiry.body}`);
+    } else if (inquiry.user_id === userid || state === 1) {
+      navigation.navigate("ReplyInquiry", { inquiry });
     } else {
       Alert.alert("알림", "작성자 및 개발자만 해당 문의를 볼 수 있습니다.");
     }
