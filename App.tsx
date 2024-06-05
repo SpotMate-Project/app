@@ -31,7 +31,7 @@ import AnswerInquiry from "./src/MyPage/Question/Inquiry/AnswerInquiry";
 import EmailVerificationPage from "./src/MyPage/Setting/EmailVerificationPage";
 import PasswordResetPage from "./src/MyPage/Setting/PasswordResetPage";
 import MapCategory from "./src/MapPage/MapCategory";
-
+import ReplyInquiry from "./src/MyPage/Question/Inquiry/ReplyInquiry";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -58,6 +58,7 @@ type RootStackParamList = {
   AnswerInquiry: undefined;
   EmailVerification: undefined;
   PasswordReset: undefined;
+  ReplyInquiry: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -231,6 +232,11 @@ function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name="ReplyInquiry"
+            component={ReplyInquiry}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="EmailVerification"
             component={EmailVerificationPage}
             options={{ headerShown: false }}
@@ -240,6 +246,7 @@ function App() {
             component={PasswordResetPage}
             options={{ headerShown: false }}
           />
+
           <Stack.Screen name="MapCategory" component={MapCategory} />
         </Stack.Navigator>
       </UserProvider>
