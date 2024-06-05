@@ -13,7 +13,6 @@ const AnswerInquiry = ({ route }) => {
   const { inquiry } = route.params;
 
   const [answer, setAnswer] = useState(inquiry.answer || "");
-
   const handleSubmit = () => {
     // Here you would typically update the inquiry's answer in your data source (e.g., server or local state)
     // This is a placeholder implementation, replace it with actual data handling logic

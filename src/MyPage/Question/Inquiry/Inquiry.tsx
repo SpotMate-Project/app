@@ -88,7 +88,9 @@ const Inquiry = () => {
             style={styles.inquiryItem}
             onPress={() => handleInquiryPress(inquiry)}
           >
-            <Text style={styles.itemText}>{inquiry.title}</Text>
+            <Text style={styles.itemText}>
+              No.{inquiry.inquiry_id}:{inquiry.title}
+            </Text>
             <Text style={styles.answerText}>{inquiry.body}</Text>
           </TouchableOpacity>
         ))}
