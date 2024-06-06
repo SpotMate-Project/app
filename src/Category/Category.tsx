@@ -8,12 +8,28 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const categories = [
-  "FD6", // 음식점
-  "CE7", // 카페
-  "HP8", // 병원
-  "PM9", // 약국
-];
+const categoryNames = {
+  MT1: "대형마트",
+  CS2: "편의점",
+  PS3: "어린이집, 유치원",
+  SC4: "학교",
+  AC5: "학원",
+  PK6: "주차장",
+  OL7: "주유소, 충전소",
+  SW8: "지하철역",
+  BK9: "은행",
+  CT1: "문화시설",
+  AG2: "중개업소",
+  PO3: "공공기관",
+  AT4: "관광명소",
+  AD5: "숙박",
+  FD6: "음식점",
+  CE7: "카페",
+  HP8: "병원",
+  PM9: "약국",
+};
+
+const categories = Object.keys(categoryNames);
 
 const Category: React.FC = () => {
   const navigation = useNavigation();
@@ -31,7 +47,7 @@ const Category: React.FC = () => {
             style={styles.categoryItem}
             onPress={() => navigation.navigate("MapCategory", { category })}
           >
-            <Text style={styles.categoryText}>{category}</Text>
+            <Text style={styles.categoryText}>{categoryNames[category]}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

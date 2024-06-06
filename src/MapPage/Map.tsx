@@ -286,7 +286,7 @@ const Map: React.FC = () => {
         '<div style="padding:5px;">' + title + '</div>' +
         '<hr>' +
         '<button style="display: block; padding:5px;" onclick="handleClick()">' + title + ' 리뷰쓰기' + '</button>' +
-        '<button style="display: block; padding:5px;" onclick="handleClick()">' + title + ' 리뷰보기' + '</button>' +
+        '<button style="display: block; padding:5px;" onclick="handleReviewClick()">' + title + ' 리뷰보기' + '</button>' +
     '</div>';
     infowindow.setContent(content);
     infowindow.open(map, marker);
