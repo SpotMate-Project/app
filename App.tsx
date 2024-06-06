@@ -33,6 +33,7 @@ import PasswordResetPage from "./src/MyPage/Setting/PasswordResetPage";
 import MapCategory from "./src/MapPage/MapCategory";
 import ReplyInquiry from "./src/MyPage/Question/Inquiry/ReplyInquiry";
 import ReviewShow from "./src/Review/ReviewShow";
+import MyReviewShow from "./src/MyPage/MyReview/MyReviewShow";
 type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -61,6 +62,7 @@ type RootStackParamList = {
   PasswordReset: undefined;
   ReplyInquiry: undefined;
   ReviewShow: undefined;
+  MyReviewShow: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -251,6 +253,11 @@ function App() {
           <Stack.Screen
             name="ReviewShow"
             component={ReviewShow}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MyReviewShow"
+            component={MyReviewShow}
             options={{ headerShown: false }}
           />
 

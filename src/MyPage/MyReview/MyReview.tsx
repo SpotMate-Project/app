@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,53 +7,61 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MyReview: React.FC = () => {
   const navigation = useNavigation();
-  const [selectedTab, setSelectedTab] = useState('음식점');
+  const [userid, setUserid] = useState<number>();
+  const [reviews, setReviews] = useState<any[]>([]);
 
-  const categories = [
-    "음식점", "술집", "카페", "패션+뷰티", "편의점", "병원+약국", "헬스",
-    "미용", "도서", "영화", "오락", "은행", "세탁소", "교육", "기타",
-  ];
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const storedEmail = await AsyncStorage.getItem("@user_email");
+        if (storedEmail) {
+          const response = await fetch(
+            "http://spotweb.hysu.kr:1030/user/info",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: storedEmail,
+              }),
+            }
+          );
+          const data = await response.json();
+          if (data.success) {
+            setUserid(data.data[0].id);
+          }
+        }
+      } catch (error) {
+        console.error("유저 정보가 없습니다.", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
-  const reviews = {
-    "음식점": [
-      { title: "미쳐버린닭 숭실대점", rating: 4, count: 32, text: "정말 맛있는 치킨!" },
-      { title: "지코바 새러마을점", rating: 5, count: 48, text: "순살 양념구이 최고!" },
-      { title: "매일한식", rating: 3, count: 22, text: "제육볶음이 맛있어요." },
-    ],
-    "술집": [],
-    "카페": [],
-    "패션+뷰티": [],
-    "편의점": [],
-    "병원+약국": [],
-    "헬스": [],
-    "미용": [],
-    "도서": [],
-    "영화": [],
-    "오락": [],
-    "은행": [],
-    "세탁소": [],
-    "교육": [],
-    "기타": [],
-  };
-
-  const renderStars = (rating: number) => {
-    let stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <FontAwesome
-          key={i}
-          name={i <= rating ? "star" : "star-o"}
-          size={16}
-          color="#FFD700"
-        />
-      );
-    }
-    return stars;
-  };
+  useEffect(() => {
+    const fetchReviewDetails = async () => {
+      if (userid) {
+        try {
+          const response = await fetch(
+            `http://spotweb.hysu.kr:1030/review/myreview/${userid}`
+          );
+          const data = await response.json();
+          if (data.success) {
+            setReviews(data.data);
+          }
+        } catch (error) {
+          console.error("리뷰를 가져올 수 없습니다.", error);
+        }
+      }
+    };
+    fetchReviewDetails();
+  }, [userid]);
 
   return (
     <View style={styles.container}>
@@ -61,37 +69,20 @@ const MyReview: React.FC = () => {
         <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
       <Text style={styles.headerText}>나의 리뷰</Text>
-      <View style={styles.tabContainerWrapper}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabContainer}>
-          {categories.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.tabItem,
-                selectedTab === category && styles.selectedTabItem,
-              ]}
-              onPress={() => setSelectedTab(category)}
-            >
-              <Text style={styles.tabText}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
       <ScrollView style={styles.reviewContainer}>
-        {reviews[selectedTab].length === 0 ? (
+        {reviews.length === 0 ? (
           <Text style={styles.noReviewText}>리뷰 없음</Text>
         ) : (
-          reviews[selectedTab].map((review, index) => (
-            <View key={index} style={styles.reviewItem}>
+          reviews.map((review, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.reviewItem}
+              onPress={() => navigation.navigate("MyReviewShow", { review })}
+            >
               <View style={styles.reviewHeader}>
-                <Text style={styles.reviewTitle}>{review.title}</Text>
-                <View style={styles.ratingContainer}>
-                  {renderStars(review.rating)}
-                  <Text style={styles.reviewCount}>({review.count})</Text>
-                </View>
+                <Text style={styles.reviewTitle}>제목 : {review.title}</Text>
               </View>
-              <Text style={styles.reviewText}>{review.text}</Text>
-            </View>
+            </TouchableOpacity>
           ))
         )}
       </ScrollView>
@@ -118,28 +109,6 @@ const styles = StyleSheet.create({
     color: "#00BCD4",
     marginVertical: 5, // Reduced marginVertical to minimize spacing
   },
-  tabContainerWrapper: {
-    alignItems: "center", // Center the tabContainer horizontally
-    marginVertical: 5, // Reduced marginVertical to minimize spacing
-  },
-  tabContainer: {
-    flexDirection: "row",
-    width: "80%", // Set a fixed width for the tab container
-  },
-  tabItem: {
-    paddingVertical: 5, // Reduced paddingVertical to minimize height
-    paddingHorizontal: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: "transparent",
-  },
-  selectedTabItem: {
-    borderBottomColor: "#00BCD4",
-  },
-  tabText: {
-    fontFamily: "Jua",
-    fontSize: 16,
-    color: "#00BCD4",
-  },
   reviewContainer: {
     flex: 1,
     marginTop: 5, // Reduced marginTop to minimize spacing
@@ -153,9 +122,9 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   reviewHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   reviewTitle: {
@@ -164,14 +133,8 @@ const styles = StyleSheet.create({
     color: "#00BCD4",
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  reviewCount: {
-    fontFamily: "Jua",
-    fontSize: 14,
-    color: "#aaa",
-    marginLeft: 5,
+    flexDirection: "row",
+    alignItems: "center",
   },
   reviewText: {
     fontFamily: "Jua",
