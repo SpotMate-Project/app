@@ -80,7 +80,10 @@ const MyReview: React.FC = () => {
               onPress={() => navigation.navigate("MyReviewShow", { review })}
             >
               <View style={styles.reviewHeader}>
-                <Text style={styles.reviewTitle}>제목 : {review.title}</Text>
+                <Text style={styles.reviewTitle}> {review.title}</Text>
+                <Text style={styles.dateText}>
+                  {new Date(review.created_at).toLocaleString()}
+                </Text>
               </View>
             </TouchableOpacity>
           ))
@@ -96,22 +99,23 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fff",
-    paddingTop: 30, // Reduced paddingTop to minimize top spacing
+    paddingTop: 30,
   },
   backButton: {
     fontSize: 24,
     color: "#00BCD4",
+    marginTop: 30,
   },
   headerText: {
     fontFamily: "Jua",
     fontSize: 30,
     textAlign: "center",
     color: "#00BCD4",
-    marginVertical: 5, // Reduced marginVertical to minimize spacing
+    marginVertical: 5,
   },
   reviewContainer: {
     flex: 1,
-    marginTop: 5, // Reduced marginTop to minimize spacing
+    marginTop: 5,
   },
   reviewItem: {
     backgroundColor: "#f9f9f9",
@@ -152,7 +156,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 4,
     backgroundColor: "#00BCD4",
-    marginVertical: 10, // Reduced marginVertical to minimize spacing
+    marginVertical: 10,
+  },
+  dateText: {
+    fontSize: 14,
+    color: "#888",
+    textAlign: "right",
   },
 });
 

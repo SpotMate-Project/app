@@ -115,7 +115,6 @@ function handleClick(){
           source={{ html: mapHtml, baseUrl: "http://localhost:8081" }}
           style={styles.webview}
           onMessage={(event) => {
-            alert(event.nativeEvent.data);
             if (event.nativeEvent.data === "리뷰쓰기") {
               navigation.navigate("ReviewPage");
             }

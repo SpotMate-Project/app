@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   backButton: {
     fontSize: 24,
     color: "#00BCD4",
+    marginTop: 20,
   },
   headerText: {
     fontFamily: "Jua",

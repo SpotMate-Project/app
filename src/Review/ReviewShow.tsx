@@ -6,7 +6,6 @@ const ReviewShow: React.FC = ({ route }) => {
   const navigation = useNavigation();
   const { review } = route.params;
   const [reviewdata, setreviewdata] = useState([]);
-  alert(review);
 
   useEffect(() => {
     const fetchReviewDetails = async () => {
@@ -16,8 +15,7 @@ const ReviewShow: React.FC = ({ route }) => {
         );
         const data = await response.json();
         if (data.success) {
-          alert(JSON.stringify(data.data));
-          setreviewdata(data.data);
+          setreviewdata(data.data[0]);
         }
       } catch (error) {
         console.error("Failed to fetch review details", error);
@@ -25,15 +23,13 @@ const ReviewShow: React.FC = ({ route }) => {
     };
     fetchReviewDetails();
   }, [review]);
-
-  alert(JSON.stringify(reviewdata) + "마지막alert");
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
-      <Text style={styles.headerText}>{reviewdata.title}</Text>
-      <Text style={styles.bodyText}>{reviewdata.body}</Text>
+      <Text style={styles.headerText}>제목 : {reviewdata.title}</Text>
+      <Text style={styles.bodyText}>리뷰 내용 : {reviewdata.body}</Text>
       <Text style={styles.dateText}>
         {new Date(reviewdata.created_at).toLocaleString()}
       </Text>
@@ -48,9 +44,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingTop: 30,
   },
+
   backButton: {
     fontSize: 24,
     color: "#00BCD4",
+    marginTop: 30,
   },
   headerText: {
     fontFamily: "Jua",

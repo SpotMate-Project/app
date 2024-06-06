@@ -16,7 +16,7 @@ const ReviewPage: React.FC = () => {
   const [reviewText, setReviewText] = useState("");
   const [title, setTitle] = useState("");
   const [userid, setUserid] = useState<number>();
-  const created_at = new Date();
+  const created_at = new Date().toISOString();
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
