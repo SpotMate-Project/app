@@ -14,13 +14,7 @@ const MainPage: React.FC = () => {
   const handleReview = () => {
     navigation.navigate("Review");
   };
-  const handleRspot = () => {
-    navigation.navigate("Rspot");
-  };
 
-  const handleHotPlace = () => {
-    navigation.navigate("HotPlace");
-  };
   const handleCategory = () => {
     navigation.navigate("Category");
   };
@@ -58,23 +52,6 @@ const MainPage: React.FC = () => {
                 style={styles.categoryIcon}
               />
               <Text style={styles.categoryText}>리뷰</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.categoryItem}
-              onPress={handleHotPlace}
-            >
-              <Image
-                source={require("../../assets/hotpp.png")}
-                style={styles.categoryIcon}
-              />
-              <Text style={styles.categoryText}>핫 플레이스</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.categoryItem} onPress={handleRspot}>
-              <Image
-                source={require("../../assets/chuspot.png")}
-                style={styles.categoryIcon}
-              />
-              <Text style={styles.categoryText}>추천 스팟</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -116,6 +93,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   section: {
+    marginTop: 80,
     marginVertical: 10,
   },
   categoryContainer: {

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, ActivityIndicator, Alert } from "react-native";
-import { WebView } from "react-native-webview";
+import { WebView, WebViewMessageEvent } from "react-native-webview";
 import * as Location from "expo-location";
+import { useNavigation } from "@react-navigation/native";
 
 const Map: React.FC = () => {
+  const navigation = useNavigation();
+  const webViewRef = useRef<WebView>(null);
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -27,6 +30,20 @@ const Map: React.FC = () => {
       setLoading(false);
     })();
   }, []);
+
+  const sendMessageToReactNative = (page: string) => {
+    if (webViewRef.current) {
+      webViewRef.current.postMessage(page);
+    }
+  };
+
+  // 웹페이지에서 전달된 메시지를 처리하는 함수
+  const handleMessageFromWeb = (event: WebViewMessageEvent) => {
+    const page = event.nativeEvent.data;
+    if (page === "ReviewPage") {
+      navigation.navigate("ReviewPage"); // ReviewPage.tsx로 네비게이션
+    }
+  };
 
   const mapHtml = location
     ? `
@@ -77,7 +94,8 @@ const Map: React.FC = () => {
   </head>
   <body>
   <div class="map_wrap">
-      <div id="map" style="width:100%;height:100%;"></div>
+  <div id="map" style="width:100%; height:100%;"></div>
+
   
       <div id="menu_wrap" class="bg_white">
           <div class="option">
@@ -97,7 +115,6 @@ const Map: React.FC = () => {
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e19c9e836c0df1b8953cd661cbec4df2&libraries=services"></script>
   <script>
   var markers = [];
-  var currentLocationMarker = null;
   
   var mapContainer = document.getElementById('map'), 
       mapOption = { 
@@ -157,6 +174,7 @@ const Map: React.FC = () => {
           (function(marker, title) {
               kakao.maps.event.addListener(marker, 'click', function() {
                   displayInfowindow(marker, title);
+                  
               });
   
               itemEl.onclick =  function () {
@@ -170,8 +188,6 @@ const Map: React.FC = () => {
       listEl.appendChild(fragment);
       menuEl.scrollTop = 0;
       map.setBounds(bounds);
-      map.setLevel(4);
-      addCurrentLocationMarker(new kakao.maps.LatLng(${location.latitude}, ${location.longitude}));
   }
   
   function getListItem(index, places) {
@@ -217,18 +233,16 @@ const Map: React.FC = () => {
   }
   
   function addCurrentLocationMarker(position) {
-      if (currentLocationMarker) {
-          currentLocationMarker.setPosition(position);
-      } else {
-          currentLocationMarker = new kakao.maps.Marker({
-              position: position,
-              image: new kakao.maps.MarkerImage(
-                  'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-                  new kakao.maps.Size(24, 35)
-              )
-          });
-          currentLocationMarker.setMap(map);
-      }
+      var marker = new kakao.maps.Marker({
+          position: position,
+          image: new kakao.maps.MarkerImage(
+              'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+              new kakao.maps.Size(24, 35)
+          )
+      });
+  
+      marker.setMap(map);
+      markers.push(marker);
   }
   
   function removeMarker() {
@@ -268,11 +282,24 @@ const Map: React.FC = () => {
   }
   
   function displayInfowindow(marker, title) {
-      var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-  
-      infowindow.setContent(content);
-      infowindow.open(map, marker);
-  }
+    var content = '<div style="padding:5px; z-index:1; background-color: white; text-align: center;">' +
+        '<div style="padding:5px;">' + title + '</div>' +
+        '<hr>' +
+        '<button style="display: block; padding:5px;" onclick="handleClick()">' + title + ' 리뷰쓰기' + '</button>' +
+        '<button style="display: block; padding:5px;" onclick="handleClick()">' + title + ' 리뷰보기' + '</button>' +
+    '</div>';
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+ function handleClick(title){
+    window.ReactNativeWebView.postMessage('리뷰쓰기');
+ }
+
+ function handleReviewClick(){
+    window.ReactNativeWebView.postMessage('리뷰보기');
+ }
+
   
   function removeAllChildNods(el) {   
       while (el.hasChildNodes()) {
@@ -280,7 +307,6 @@ const Map: React.FC = () => {
       }
   }
 
-  // Add marker for current location
   addCurrentLocationMarker(new kakao.maps.LatLng(${location.latitude}, ${location.longitude}));
   </script>
   </body>
@@ -297,6 +323,15 @@ const Map: React.FC = () => {
           originWhitelist={["*"]}
           source={{ html: mapHtml, baseUrl: "http://localhost:8081" }}
           style={styles.webview}
+          onMessage={(event) => {
+            alert(event.nativeEvent.data);
+            if (event.nativeEvent.data === "리뷰쓰기") {
+              navigation.navigate("ReviewPage");
+            }
+            if (event.nativeEvent.data === "리뷰보기") {
+              navigation.navigate("Review");
+            }
+          }}
         />
       )}
     </View>

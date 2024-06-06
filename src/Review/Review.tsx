@@ -1,104 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome } from '@expo/vector-icons';
 
 const Review: React.FC = () => {
   const navigation = useNavigation();
-  const [selectedTab, setSelectedTab] = useState('음식점');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [reviews, setReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
 
-  const categories = [
-    "음식점", "술집", "카페", "패션+뷰티", "편의점", "병원+약국", "헬스",
-    "미용", "도서", "영화", "오락", "은행", "세탁소", "교육", "기타",
-  ];
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
-  const reviews = {
-    "음식점": [
-      { title: "미쳐버린닭 숭실대점", rating: 4, count: 32 },
-      { title: "지코바 새러마을점", rating: 5, count: 48 },
-      { title: "매일한식", rating: 3, count: 22 },
-    ],
-    "술집": [
-      { title: "친구포차", rating: 4, count: 25 },
-      { title: "호프앤비어", rating: 3, count: 19 },
-    ],
-    "카페": [
-      { title: "스타벅스", rating: 5, count: 120 },
-      { title: "이디야", rating: 4, count: 89 },
-    ],
-    "패션+뷰티": [
-      { title: "미샤", rating: 4, count: 50 },
-      { title: "아리따움", rating: 5, count: 60 },
-    ],
-    "편의점": [
-      { title: "GS25", rating: 3, count: 30 },
-      { title: "CU", rating: 4, count: 40 },
-    ],
-    "병원+약국": [
-      { title: "온누리약국", rating: 4, count: 20 },
-      { title: "메디컬센터", rating: 5, count: 18 },
-    ],
-    "헬스": [
-      { title: "짐스타", rating: 5, count: 55 },
-      { title: "헬스존", rating: 4, count: 45 },
-    ],
-    "미용": [
-      { title: "헤어샵", rating: 4, count: 15 },
-      { title: "네일아트", rating: 5, count: 25 },
-    ],
-    "도서": [
-      { title: "교보문고", rating: 5, count: 100 },
-      { title: "영풍문고", rating: 4, count: 80 },
-    ],
-    "영화": [
-      { title: "CGV", rating: 5, count: 200 },
-      { title: "메가박스", rating: 4, count: 150 },
-    ],
-    "오락": [
-      { title: "PC방", rating: 5, count: 75 },
-      { title: "노래방", rating: 4, count: 65 },
-    ],
-    "은행": [
-      { title: "국민은행", rating: 5, count: 90 },
-      { title: "신한은행", rating: 4, count: 70 },
-    ],
-    "세탁소": [
-      { title: "크린토피아", rating: 5, count: 35 },
-      { title: "워시엔조이", rating: 4, count: 25 },
-    ],
-    "교육": [
-      { title: "대성학원", rating: 5, count: 45 },
-      { title: "메가스터디", rating: 4, count: 30 },
-    ],
-    "기타": [
-      { title: "기타", rating: 4, count: 50 },
-      { title: "기타2", rating: 3, count: 20 },
-    ],
-  };
+  useEffect(() => {
+    filterReviews();
+  }, [searchQuery, reviews]);
 
-  const renderStars = (rating: number) => {
-    let stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <FontAwesome
-          key={i}
-          name={i <= rating ? "star" : "star-o"}
-          size={16}
-          color="#FFD700"
-        />
-      );
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch("http://spotweb.hysu.kr:1030/review/get");
+      const data = await response.json();
+      setReviews(data.data); // 'data' 객체의 'data' 배열을 설정
+    } catch (error) {
+      console.error(error);
     }
-    return stars;
   };
 
-  const navigateToReviewPage = (itemTitle: string) => {
-    navigation.navigate('ReviewPage', { title: itemTitle });
+  const filterReviews = () => {
+    const filtered = reviews.filter(
+      (review) =>
+        review.title &&
+        review.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredReviews(filtered);
+  };
+
+  const navigateToReviewPage = (review) => {
+    navigation.navigate("ReviewShow", { review });
+  };
+
+  const navigateToWriteReviewPage = () => {
+    navigation.navigate("ReviewPage");
   };
 
   return (
@@ -106,37 +55,36 @@ const Review: React.FC = () => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.backButton}>←</Text>
       </TouchableOpacity>
-      <Text style={styles.headerText}>리뷰</Text>
-      <View style={styles.tabContainerWrapper}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabContainer}>
-          {categories.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.tabItem,
-                selectedTab === category && styles.selectedTabItem,
-              ]}
-              onPress={() => setSelectedTab(category)}
-            >
-              <Text style={styles.tabText}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+      <Text style={styles.headerText}>리뷰 </Text>
+      <TouchableOpacity
+        style={styles.writeButton}
+        onPress={navigateToWriteReviewPage}
+      >
+        <Text style={styles.writeButtonText}>리뷰 쓰기</Text>
+      </TouchableOpacity>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="리뷰 검색"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       <ScrollView style={styles.reviewContainer}>
-        {reviews[selectedTab].length === 0 ? (
+        {filteredReviews.length === 0 ? (
           <Text style={styles.noReviewText}>목록 없음</Text>
         ) : (
-          reviews[selectedTab].map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => navigateToReviewPage(item.title)}>
+          filteredReviews.map((review) => (
+            <TouchableOpacity
+              key={review.review_id}
+              onPress={() => navigateToReviewPage(review.review_id)}
+            >
               <View style={styles.reviewItem}>
-                <View style={styles.reviewHeader}>
-                  <Text style={styles.reviewTitle}>{item.title}</Text>
-                  <View style={styles.ratingContainer}>
-                    {renderStars(item.rating)}
-                    <Text style={styles.reviewCount}>({item.count})</Text>
-                  </View>
-                </View>
+                <Text style={styles.reviewTitle}>{review.title}</Text>
+                <Text style={styles.reviewDate}>
+                  {review.created_at
+                    ? new Date(review.created_at).toLocaleString()
+                    : "날짜 없음"}
+                </Text>
               </View>
             </TouchableOpacity>
           ))
@@ -152,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fff",
-    paddingTop: 30, // Reduced paddingTop to minimize top spacing
+    paddingTop: 30,
   },
   backButton: {
     fontSize: 24,
@@ -163,33 +111,31 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
     color: "#00BCD4",
-    marginVertical: 5, // Reduced marginVertical to minimize spacing
+    marginVertical: 5,
   },
-  tabContainerWrapper: {
-    alignItems: "center", // Center the tabContainer horizontally
-    marginVertical: 5, // Reduced marginVertical to minimize spacing
-  },
-  tabContainer: {
-    flexDirection: "row",
-    width: "80%", // Set a fixed width for the tab container
-  },
-  tabItem: {
-    paddingVertical: 5, // Reduced paddingVertical to minimize height
+  searchInput: {
+    height: 40,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    borderRadius: 5,
     paddingHorizontal: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: "transparent",
+    marginVertical: 10,
   },
-  selectedTabItem: {
-    borderBottomColor: "#00BCD4",
+  writeButton: {
+    backgroundColor: "#00BCD4",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 10,
   },
-  tabText: {
+  writeButtonText: {
     fontFamily: "Jua",
-    fontSize: 16,
-    color: "#00BCD4",
+    fontSize: 18,
+    color: "#fff",
   },
   reviewContainer: {
     flex: 1,
-    marginTop: 5, // Reduced marginTop to minimize spacing
+    marginTop: 5,
   },
   reviewItem: {
     backgroundColor: "#f9f9f9",
@@ -199,26 +145,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
   },
-  reviewHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
   reviewTitle: {
     fontFamily: "Jua",
     fontSize: 22,
     color: "#00BCD4",
   },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  reviewCount: {
+  reviewDate: {
     fontFamily: "Jua",
     fontSize: 14,
-    color: "#aaa",
-    marginLeft: 5,
+    color: "#888",
+    marginTop: 5,
   },
   noReviewText: {
     fontFamily: "Jua",
@@ -231,7 +167,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 4,
     backgroundColor: "#00BCD4",
-    marginVertical: 10, // Reduced marginVertical to minimize spacing
+    marginVertical: 10,
   },
 });
 

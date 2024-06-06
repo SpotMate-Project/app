@@ -75,14 +75,6 @@ const MyPage: React.FC = () => {
       </View>
       <View style={styles.menuContainer}>
         <View style={styles.menuRow}>
-          <TouchableOpacity style={styles.menuItem} onPress={handleItemlist}>
-            <Image
-              source={require("../../assets/zzim.png")}
-              style={styles.menuIcon}
-            />
-            <Text style={styles.menuText}>찜 목록</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={styles.menuItem} onPress={handleReview}>
             <Image
               source={require("../../assets/review1.png")}
